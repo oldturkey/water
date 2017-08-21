@@ -5,16 +5,18 @@ var ReactHighcharts = require('react-highcharts');
 
 export default class Content extends React.Component {
 	state = { 
-		categories: ['8.09', '8.10', '8.11', '8.12', '8.13', '8.14', '8.15', '8.16', '8.17', '8.18', '8.19', '8.20'] ,
-		data01:  [70, 70, 95, 145, 184, 215, 252, 265, 233, 183, 139, 96],
-		data02: [39, 42, 57, 85, 119, 152, 170, 166, 142, 103, 66, 48]
+		manage1:{},
+		categories: [] ,
+		data01:  [],
+		data02: []
 	}
 	lodaDataFromServer=()=>{
 		$.ajax({
-			url:'http://192.168.31.14:8080/manage',
-			dataType:'json',
+			url:'http://ou1e80oz4.bkt.clouddn.com/test.json',
+			dataType:'JSON',
 			success:function(data){
 				this.setState({
+					manage1:data.manage1,
 					categories:data.manage2.date,
 					data01:data.manage2.recharge,
 					data02:data.manage2.payment
@@ -26,8 +28,8 @@ export default class Content extends React.Component {
 		});
 	}
 	componentDidMount=()=>{
-		this.lodaDataFromServer;
-		setInterval(this.lodaDataFromServer,10000);
+		this.lodaDataFromServer();
+		
 	}
 	render() {
 		const config = {
@@ -68,17 +70,17 @@ export default class Content extends React.Component {
 				<Row style={{textAlign:'center'}}>
 					<Col lg={8} >
 						<Card title="今日充值金额" bordered={true} style={{ width: 300,margin:'20px auto' }}>
-						      <p>265</p>
+						      <p>{this.state.manage1.todayrecharge}</p>
 						    </Card>
 					</Col>
 					<Col lg={8}>
 						<Card title="今日消费金额" bordered={true} style={{ width: 300,margin:'20px auto'  }}>
-						      <p>36</p>
+						      <p>{this.state.manage1.todayconsume}</p>
 						    </Card>
 					</Col>
 					<Col lg={8}>
 						<Card title="账户总余额" bordered={true} style={{ width: 300,margin:'20px auto 50px'  }}>
-						      <p>36520</p>
+						      <p>{this.state.manage1.remain}</p>
 						    </Card>
 					</Col>
 					<Col lg={20} offset={2}>

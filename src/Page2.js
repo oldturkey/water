@@ -13,10 +13,10 @@ class App extends React.Component {
     e.preventDefault();
     var money=this.state.data;
     $.ajax({
-    	url:this.props.url,
+    	url:'/recharge',
     	dataType:'json',
     	type:'POST',
-    	data:money,
+    	data:{money:money,AdminName:'xu'},
     	success:function(){
     		alert('充值成功');
     	},

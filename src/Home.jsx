@@ -5,10 +5,12 @@ import { Row, Col ,Card ,Table} from 'antd';
 export default class product extends React.Component {
 	lodaDataFromServer=()=>{
 		$.ajax({
-			url:this.props.url,
+			url:'http://ou1e80oz4.bkt.clouddn.com/page1.json',
 			dataType:'json',
 			success:function(data){
-				this.setState({data:data});
+				this.setState({data:data.record2,
+					record1:data.record1
+				});
 			}.bind(this),
 			error:function(xhr,status,err){
 				console.error(this.props.url,status,err.toString());
@@ -16,34 +18,11 @@ export default class product extends React.Component {
 		});
 	}
 	state ={
-		data:[{
-			  key: '1',
-			  displayID: '000001',
-			  location: '华星时代广场',
-			  todayflow: '100',
-			  totalflow: 32,
-			}, {
-			  key: '2',
-			  displayID: '000002',
-			  location: '浙江大学',
-			  todayflow: '50',
-			  totalflow: 32,
-			}, {
-			  key: '3',
-			  displayID: '000003',
-			  location: '武林广场',
-			  todayflow: '25',
-			  totalflow: 32,
-			}, {
-			  key: '4',
-			  displayID: '000004',
-			  location: '庆丰社区',
-			  todayflow: '125',
-			  totalflow: 32,
-			}]
+		data:[],
+		record1:''
 	}
 	componentDidMount=()=>{
-		this.lodaDataFromServer;
+		this.lodaDataFromServer();
 		// setInterval(this.lodaDataFromServer,100);
 	}
 	onChange = (pagination, filters, sorter)=>{
@@ -53,18 +32,18 @@ export default class product extends React.Component {
 	render(){
 		const columns = [{
 			  title: '设备编号',
-			  dataIndex: 'displayID',
+			  dataIndex: 'displayId',
 			}, {
 			  title: '投放位置',
 			  dataIndex: 'location',
 			}, {
 			  title: '当天供水量',
-			  dataIndex: 'todayflow',
-			  sorter: (a, b) => a.todayflow - b.todayflow,
+			  dataIndex: 'flow',
+			  sorter: (a, b) => a.flow - b.flow,
 			}, {
 			  title: '历史总供水量',
-			  dataIndex: 'totalflow',
-			  sorter: (a, b) => a.totalflow - b.totalflow,
+			  dataIndex: 'hisflow',
+			  sorter: (a, b) => a.hisflow - b.hisflow,
 			}];
 
 			const data = this.state.data;
@@ -73,22 +52,22 @@ export default class product extends React.Component {
 				<Row style={{textAlign:'center'}}>
 					<Col lg={12} >
 						<Card title="当天供水总量" bordered={true} style={{ width: 300,margin:'20px auto' }}>
-						      <p>300 L</p>
+						      <p>{this.state.record1.todayflow}</p>
 						    </Card>
 					</Col>
 					<Col lg={12}>
 						<Card title="当天平均每台供水量" bordered={true} style={{ width: 300,margin:'20px auto'  }}>
-						      <p>75 L</p>
+						      <p>{this.state.record1.averflow}</p>
 						    </Card>
 					</Col>
 					<Col lg={12}>
 						<Card title="历史供水总量" bordered={true} style={{ width: 300,margin:'20px auto 50px'  }}>
-						      <p>2000 L</p>
+						      <p>{this.state.record1.totalflow}</p>
 						    </Card>
 					</Col>
 					<Col lg={12}>
 						<Card title="历史平均每台供水量" bordered={true} style={{ width: 300,margin:'20px auto 50px'  }}>
-						      <p>500 L</p>
+						      <p>{this.state.record1.hisaverflow}</p>
 						    </Card>
 					</Col>
 					<Col lg={16} offset={4} >
