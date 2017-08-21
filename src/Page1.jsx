@@ -11,13 +11,13 @@ export default class Content extends React.Component {
 	}
 	lodaDataFromServer=()=>{
 		$.ajax({
-			url:'/mannage',
+			url:'http://192.168.31.14:8080/manage',
 			dataType:'json',
 			success:function(data){
 				this.setState({
-					categories:data.mannage2.date,
-					data01:data.mannage2.recharge,
-					data02:data.payment
+					categories:data.manage2.date,
+					data01:data.manage2.recharge,
+					data02:data.manage2.payment
 				});
 			}.bind(this),
 			error:function(xhr,status,err){
@@ -27,7 +27,7 @@ export default class Content extends React.Component {
 	}
 	componentDidMount=()=>{
 		this.lodaDataFromServer;
-		setInterval(this.lodaDataFromServer,1000);
+		setInterval(this.lodaDataFromServer,10000);
 	}
 	render() {
 		const config = {
