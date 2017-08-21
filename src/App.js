@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router,Route,Link} from 'react-router-dom'
-import { Layout, Menu, Breadcrumb, Icon } from 'antd';
+import { Layout, Menu, Breadcrumb} from 'antd';
  import './App.css';
  import Home from './Home';
  import Page1 from './Page1';
   import Page2 from './Page2'
-const { SubMenu } = Menu;
 const { Header, Content, Footer, Sider } = Layout;	
 
 class App extends Component {
@@ -17,7 +16,7 @@ class App extends Component {
       <Layout>
     <Header className="header">
       <div className="logo" />
-      <p>钛比科技  智能饮水机管理平台</p>
+      <p className="logo-title">钛比科技  智能饮水机管理平台</p>
     </Header>
     <Content style={{ padding: '0 50px' }}>
       <Breadcrumb style={{ margin: '12px 0' }}>
@@ -37,7 +36,7 @@ class App extends Component {
         	<Menu.Item key="3"><Link to="/page2">充值管理</Link></Menu.Item>
           </Menu>
         </Sider>
-        <Content style={{ padding: '0 24px', minHeight: 480 }}>
+        <Content style={{ padding: '0 24px', minHeight: 730 }}>
           <Route exact path="/" component={Home}/>
 	      <Route path="/page1" component={Page1}/>
 	      <Route path="/page2" component={Page2}/>
