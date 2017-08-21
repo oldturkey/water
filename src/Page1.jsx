@@ -11,19 +11,23 @@ export default class Content extends React.Component {
 	}
 	lodaDataFromServer=()=>{
 		$.ajax({
-			url:this.props.url,
+			url:'/mannage',
 			dataType:'json',
 			success:function(data){
 				this.setState({
-					categories:data.categories,
-					data01:data.data01,
-					data02:data.data02
+					categories:data.mannage2.date,
+					data01:data.mannage2.recharge,
+					data02:data.payment
 				});
 			}.bind(this),
 			error:function(xhr,status,err){
 				console.error(this.props.url,status,err.toString());
 			}.bind(this)
 		});
+	}
+	componentDidMount=()=>{
+		this.lodaDataFromServer;
+		setInterval(this.lodaDataFromServer,1000);
 	}
 	render() {
 		const config = {
