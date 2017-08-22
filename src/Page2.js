@@ -16,9 +16,13 @@ class App extends React.Component {
     	url:'/recharge',
     	dataType:'json',
     	type:'POST',
-    	data:{money:money,AdminName:'xu'},
-    	success:function(){
-    		alert('充值成功');
+    	data:{money:money,adminname:'xu'},
+    	success:function(data){
+        if(data===1){
+            alert('充值成功');
+        }else{
+          alert('充值失败');
+        }
     	},
     	error:function(xhr,status,err){
     		console.error(this.props.url,status,err.toString());

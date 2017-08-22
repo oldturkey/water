@@ -10,9 +10,9 @@ export default class Content extends React.Component {
 		data01:  [],
 		data02: []
 	}
-	lodaDataFromServer=()=>{
+	loaDataFromServer=()=>{
 		$.ajax({
-			url:'http://ou1e80oz4.bkt.clouddn.com/test.json',
+			url:'/manage',
 			dataType:'JSON',
 			success:function(data){
 				this.setState({
@@ -28,8 +28,8 @@ export default class Content extends React.Component {
 		});
 	}
 	componentDidMount=()=>{
-		this.lodaDataFromServer();
-		
+		this.loaDataFromServer();
+		setInterval(this.loaDataFromServer,120000);
 	}
 	render() {
 		const config = {
