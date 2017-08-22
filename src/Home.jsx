@@ -23,10 +23,14 @@ export default class product extends React.Component {
 	}
 	componentDidMount=()=>{
 		this.lodaDataFromServer();
-		// setInterval(this.lodaDataFromServer,100);
+		this.time=setInterval(this.lodaDataFromServer,120000);
+	}
+	componentWillUnmount=()=>{
+		clearInterval(this.time);
 	}
 	onChange = (pagination, filters, sorter)=>{
 		console.log('params', pagination, filters, sorter);
+
 	}
 
 	render(){

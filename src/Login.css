@@ -1,9 +1,22 @@
+ .formTitle {
+ 	text-align: center;
+ 	line-height: 1.5em;
+ 	padding:25px 0;
+ }
+ .loginBox{
+ 	position: fixed;
+	top: 50%;
+	left: 50%;
+	width:50%;
+	height: 50%;
+	-webkit-transform: translateX(-50%) translateY(-50%);
+ }
  .login-form {
   max-width: 300px;
-  margin:200px auto;
+  margin:0px auto ;
   border:2px solid #eee;
   border-radius: 5px;
-  padding:25px;
+  padding:15px;
 }
  .login-form-forgot {
   float: right;

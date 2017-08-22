@@ -8,15 +8,27 @@ class App extends React.Component {
 	state={
 	 data:''
 	}
-
+   getCookie=(cname)=>{
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) 
+    {
+      var c = ca[i].trim();
+      if (c.indexOf(name)===0) return c.substring(name.length,c.length);
+    }
+    return "1";
+   }
+  
+  
   handleSubmit = (e) => {
     e.preventDefault();
     var money=this.state.data;
+    var user = this.getCookie('user');
     $.ajax({
     	url:'/recharge',
     	dataType:'json',
     	type:'POST',
-    	data:{money:money,adminname:'xu'},
+    	data:{money:money,adminname:user},
     	success:function(data){
         if(data===1){
             alert('充值成功');

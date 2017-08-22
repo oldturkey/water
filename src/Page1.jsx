@@ -29,7 +29,10 @@ export default class Content extends React.Component {
 	}
 	componentDidMount=()=>{
 		this.loaDataFromServer();
-		setInterval(this.loaDataFromServer,120000);
+		this.time = setInterval(this.loaDataFromServer,120000);
+	}
+	componentWillUnmount=()=>{
+		clearInterval(this.time);
 	}
 	render() {
 		const config = {
