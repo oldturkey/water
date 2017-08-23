@@ -25,7 +25,7 @@ class App extends React.Component {
     var money=this.state.data;
     var user = this.getCookie('user');
     $.ajax({
-    	url:'/recharge',
+    	url:'http://192.168.31.14:8080/recharge',
     	dataType:'json',
     	type:'POST',
     	data:{money:money,adminname:user},

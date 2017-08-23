@@ -19,9 +19,8 @@ class NormalLoginForm extends React.Component {
       if (!err) {
         console.log('Received values of form: ', values);
         var _this = this;
-        _this.props.history.push('./app');
         $.ajax({
-          url:'/login',
+          url:'http://192.168.31.14:8080/login',
           dataType:'json',
           type:'POST',
           data:{name:values.userName,password:values.password},

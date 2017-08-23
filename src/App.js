@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {BrowserRouter as Router,Route,Link,Switch} from 'react-router-dom'
+import {BrowserRouter as Router,Route,Link} from 'react-router-dom'
 import { Layout, Menu, Breadcrumb} from 'antd';
 import './App.css';
 import Home from './Home';

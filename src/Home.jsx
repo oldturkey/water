@@ -5,7 +5,7 @@ import { Row, Col ,Card ,Table} from 'antd';
 export default class product extends React.Component {
 	lodaDataFromServer=()=>{
 		$.ajax({
-			url:'/record',
+			url:'http://192.168.31.14:8080/record',
 			dataType:'json',
 			success:function(data){
 				this.setState({data:data.record2,

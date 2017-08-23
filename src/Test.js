@@ -11,10 +11,10 @@ class Test extends React.Component {
     this.props.form.validateFields((err, values) => {
     	if (!err) {
 		    $.ajax({
-		    	url:'/parameter',
+		    	url:'http://192.168.31.14:8080/parameter',
 		    	dataType:'json',
 		    	type:'POST',
-		    	data:{displayId:values.id,openTime:values.openTime?values.openTime:'',pulse:values.pulse?values.pulse:'',heartRate:values.heartRate?values.heartRate:''},
+		    	data:{displayId:values.id,openTime:values.openTime?values.openTime:'',pulse:values.pulse?values.pulse:'',heartRate:values.heartRate?values.heartRate:'',hotPulse:values.hotPulse?values.hotPulse:''},
 		    	success:function(data){
 		        if(data===1){
 		            alert('设置成功');
@@ -60,11 +60,21 @@ class Test extends React.Component {
 	          )}
 	        </FormItem>
 	        <FormItem
-	          label="设备脉冲(个/L)"
+	          label="设备冷水脉冲(个/L)"
 	          {...formItemLayout}
 	        >
 	          {getFieldDecorator('pulse', {
-	            rules: [{  message: '请输入设备脉冲!' }],
+	            rules: [{  message: '请输入设备冷水脉冲!' }],
+	          })(
+	            <Input />
+	          )}
+	        </FormItem>
+	        <FormItem
+	          label="设备热水脉冲(个/L)"
+	          {...formItemLayout}
+	        >
+	          {getFieldDecorator('hotPulse', {
+	            rules: [{  message: '请输入设备热水脉冲!' }],
 	          })(
 	            <Input />
 	          )}

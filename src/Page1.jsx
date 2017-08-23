@@ -12,7 +12,7 @@ export default class Content extends React.Component {
 	}
 	loaDataFromServer=()=>{
 		$.ajax({
-			url:'/manage',
+			url:'http://192.168.31.14:8080/manage',
 			dataType:'JSON',
 			success:function(data){
 				this.setState({
