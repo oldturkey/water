@@ -31,13 +31,13 @@ export default class App extends Component {
                 style={{ height: '100%' }}
               >
               <Menu.Item key="1" ><Link to='/app'>记录管理</Link></Menu.Item>
-              <Menu.Item key="2" ><Link to='/app/page1'>经营管理</Link></Menu.Item>app
+              <Menu.Item key="2" ><Link to='/app/page1'>经营管理</Link></Menu.Item>
               <Menu.Item key="3" ><Link to='/app/page2'>充值管理</Link></Menu.Item>
               <Menu.Item key="4" ><Link to='/app/test'>测试用例</Link></Menu.Item>          
               </Menu>
             </Sider>
             <Content style={{ padding: '0 24px', minHeight: 730 }}>        
-                <Route  path='/app' component={Home}/>
+                <Route  exact path='/app' component={Home}/>
                 <Route path='/app/page1' component={Page1}/>
                 <Route path='/app/page2' component={Page2}/> 
                 <Route path='/app/test' component={Test}/>    
