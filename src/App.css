@@ -2,7 +2,12 @@
 .App {
   text-align: center;
 }
-
+.user {
+    float: right;
+    position: relative;
+    bottom: 64px;
+    font-size: 1.0rem;
+}
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 80px;
