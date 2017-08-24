@@ -30,11 +30,42 @@
   padding: 20px;
   color: white;
 }
-
+.dataTitle {
+  text-indent: 6pt;
+  font-size:16pt;
+  height:24pt;
+  line-height:20pt;
+  border-left: 4px solid #49a9ee;
+  margin-bottom: 15px;
+  color:#000;
+}
 .App-intro {
   font-size: large;
 }
-
+.Title,.Data {
+  text-align: center;
+}
+.Box {
+  margin-bottom:20px;
+}
+.Title{
+  font-size:16pt;
+  color:#555;
+}
+.Data{
+  font-size:28pt;
+  line-height: 42pt;
+  color:#108EE9;
+  padding:15px 0;
+}
+.ant-table-thead th {
+  text-align:center!important;
+}
+.ant-table-tbody {
+  text-align:center;
+  font-size:10pt;
+  color:#333;
+}
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }

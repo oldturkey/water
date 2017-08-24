@@ -1,6 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
-import { Row, Col ,Card ,Table} from 'antd';
+import { Row, Col ,Table} from 'antd';
 
 export default class product extends React.Component {
 	lodaDataFromServer=()=>{
@@ -45,12 +45,12 @@ export default class product extends React.Component {
 			  title: '投放位置',
 			  dataIndex: 'location',
 			}, {
-			  title: '当天供水量',
+			  title: '当天供水量/L',
 			  dataIndex: 'flow',
 			  render: renderContent,
 			  sorter: (a, b) => a.flow - b.flow,
 			}, {
-			  title: '历史总供水量',
+			  title: '历史总供水量/L',
 			  dataIndex: 'hisflow',
 			  render: renderContent,
 			  sorter: (a, b) => a.hisflow - b.hisflow,
@@ -59,29 +59,29 @@ export default class product extends React.Component {
 
 		return(
 			<div>
-				<Row style={{textAlign:'center'}}>
-					<Col lg={12} >
-						<Card title="当天供水总量" bordered={true} style={{ width: 300,margin:'20px auto' }}>
-						      <p>{this.state.record1.todayflow.toFixed(2)}</p>
-						    </Card>
+				<Row style={{borderBottom:'2px solid #eee'}}>
+					<p className="dataTitle">数据统计：</p>
+					<Col lg={6} className="Box">
+						<p className="Title">当天供水总量(L)：</p>
+						<p className="Data">{this.state.record1.todayflow.toFixed(2)} <span style={{fontSize:'12pt',color:'#f04134'}}>1.23%↑</span></p>
 					</Col>
-					<Col lg={12}>
-						<Card title="当天平均每台供水量" bordered={true} style={{ width: 300,margin:'20px auto'  }}>
-						      <p>{this.state.record1.averflow.toFixed(2)}</p>
-						    </Card>
+					<Col lg={6} className="Box">
+							<p className="Title">今日平均每台供水量(L)：</p>
+						    <p className="Data">{this.state.record1.averflow.toFixed(2)} <span style={{fontSize:'12pt',color:'#f04134'}}>1.23%↑</span></p>
 					</Col>
-					<Col lg={12}>
-						<Card title="历史供水总量" bordered={true} style={{ width: 300,margin:'20px auto 50px'  }}>
-						      <p>{this.state.record1.totalflow.toFixed(2)}</p>
-						    </Card>
+					<Col lg={6} className="Box">
+						<p className="Title">历史供水总量(L)：</p>
+						<p className="Data">{this.state.record1.totalflow.toFixed(1)} <span style={{fontSize:'12pt',color:'#f04134'}}>1.23%↑</span></p>
 					</Col>
-					<Col lg={12}>
-						<Card title="历史平均每台供水量" bordered={true} style={{ width: 300,margin:'20px auto 50px'  }}>
-						      <p>{this.state.record1.hisaverflow.toFixed(2)}</p>
-						    </Card>
+					<Col lg={6} className="Box">
+						<p className="Title">历史平均每台供水量(L)：</p>
+						<p className="Data">{this.state.record1.hisaverflow.toFixed(1)} <span style={{fontSize:'12pt',color:'#f04134'}}>1.23%↑</span></p>
 					</Col>
-					<Col lg={16} offset={4} >
-						<Table columns={columns} dataSource={data} onChange={this.onChange} bordered/>
+				</Row>
+				<Row style={{paddingTop:'20px'}}>
+					<p className="dataTitle">设备数据：</p>
+					<Col lg={20} offset={2} >
+						<Table columns={columns} dataSource={data} onChange={this.onChange} bordered style={{textAlign:'center'}}/>
 					</Col>
 				</Row>
 			</div>
