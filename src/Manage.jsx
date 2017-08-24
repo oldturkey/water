@@ -12,7 +12,7 @@ export default class Content extends React.Component {
 	}
 	loaDataFromServer=()=>{
 		$.ajax({
-			url:'http://192.168.31.14:8080/manage',
+			url:'/manage',
 			dataType:'JSON',
 			success:function(data){
 				this.setState({
@@ -45,15 +45,20 @@ export default class Content extends React.Component {
 	        	enabled:false
 	        },
 	        title: {
-	           text: '月充值消费折线图'
+	           text: '月充值消费折线图',
+	           margin:30
 	        },
 	        xAxis: {
 	           categories: this.state.categories
 	        },
 	        yAxis: {
 	           title: {
-	                text: '充值金额(元)'
+	                text: '金额(元)'
 	            }
+	        },
+	        legend: {
+	        	align: 'right',
+            	verticalAlign: 'top',
 	        },
 	        plotOptions: {
 	           line: {
@@ -77,15 +82,15 @@ export default class Content extends React.Component {
 				<p className="dataTitle">经营数据：</p>
 					<Col lg={8} className="Box">
 						<p className="Title">今日充值金额(元)：</p>
-						<p className="Data">{this.state.manage1.todayrecharge} <span style={{fontSize:'12pt',color:'#f04134'}}>1.23%↑</span></p>
+						<p className="Data">{this.state.manage1.todayrecharge} </p>
 					</Col>
 					<Col lg={8} className="Box">
 						<p className="Title">今日消费金额(元)：</p>
-						<p className="Data">{this.state.manage1.todayconsume} <span style={{fontSize:'12pt',color:'#f04134'}}>1.23%↑</span></p>
+						<p className="Data">{this.state.manage1.todayconsume} </p>
 					</Col>
 					<Col lg={8} className="Box">
 						<p className="Title">账户总余额(元)：</p>
-						<p className="Data">{this.state.manage1.remain} <span style={{fontSize:'12pt',color:'#f04134'}}>1.23%↑</span></p>
+						<p className="Data">{this.state.manage1.remain} </p>
 					</Col>
 				</Row>
 				<Row style={{paddingTop:'20px'}}>

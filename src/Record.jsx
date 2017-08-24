@@ -5,7 +5,7 @@ import { Row, Col ,Table} from 'antd';
 export default class product extends React.Component {
 	lodaDataFromServer=()=>{
 		$.ajax({
-			url:'http://192.168.31.14:8080/record',
+			url:'/record',
 			dataType:'json',
 			success:function(data){
 				this.setState({data:data.record2,
@@ -63,19 +63,19 @@ export default class product extends React.Component {
 					<p className="dataTitle">数据统计：</p>
 					<Col lg={6} className="Box">
 						<p className="Title">当天供水总量(L)：</p>
-						<p className="Data">{this.state.record1.todayflow.toFixed(2)} <span style={{fontSize:'12pt',color:'#f04134'}}>1.23%↑</span></p>
+						<p className="Data">{this.state.record1.todayflow.toFixed(2)} </p>
 					</Col>
 					<Col lg={6} className="Box">
 							<p className="Title">今日平均每台供水量(L)：</p>
-						    <p className="Data">{this.state.record1.averflow.toFixed(2)} <span style={{fontSize:'12pt',color:'#f04134'}}>1.23%↑</span></p>
+						    <p className="Data">{this.state.record1.averflow.toFixed(2)} </p>
 					</Col>
 					<Col lg={6} className="Box">
 						<p className="Title">历史供水总量(L)：</p>
-						<p className="Data">{this.state.record1.totalflow.toFixed(1)} <span style={{fontSize:'12pt',color:'#f04134'}}>1.23%↑</span></p>
+						<p className="Data">{this.state.record1.totalflow.toFixed(1)} </p>
 					</Col>
 					<Col lg={6} className="Box">
 						<p className="Title">历史平均每台供水量(L)：</p>
-						<p className="Data">{this.state.record1.hisaverflow.toFixed(1)} <span style={{fontSize:'12pt',color:'#f04134'}}>1.23%↑</span></p>
+						<p className="Data">{this.state.record1.hisaverflow.toFixed(1)} </p>
 					</Col>
 				</Row>
 				<Row style={{paddingTop:'20px'}}>

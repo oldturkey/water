@@ -36,9 +36,7 @@ export default class App extends Component {
           <p className="logo-title">智能饮水机管理平台</p>
           <p className = "user">
             <Dropdown overlay={menu}>
-              <a className="ant-dropdown-link" href="">
                 <Avatar size="large" style={{top:'10px',backgroundColor: '#49a9ee'}}>{admin}</Avatar>
-              </a>
             </Dropdown>
             </p>
         </Header>

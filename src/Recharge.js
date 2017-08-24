@@ -13,7 +13,7 @@ class App extends React.Component {
     var _this = this;
     this.props.form.validateFields(['note'],(err, values) => {
     $.ajax({
-    	url:'http://192.168.31.14:8080/rechargeAll',
+    	url:'/rechargeAll',
     	dataType:'json',
     	type:'POST',
     	data:{money:values.note,adminName:user},
@@ -60,61 +60,65 @@ class App extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;  
     return (
-    	<div>
-    	<h2 style={{margin:'20px 0'}}>给所有用户存入余额:</h2>
-      <Form onSubmit={this.handleSubmit01}>
-        <FormItem
-          label="金额"
-          labelCol={{ lg: 2 }}
-          wrapperCol={{ lg: 4 }}
-        >
-          {getFieldDecorator('note', {
-            rules: [{ required: true, message: '请输入要充值的金额!' }],
-          })(
-            <Input onChange={this.handleChange} />
-          )}
-        </FormItem>
-        <FormItem
-          wrapperCol={{ lg: 6, offset: 2 }}
-        >
-          <Button type="primary" htmlType="submit">
-            充值
-          </Button>
-        </FormItem>
-      </Form>
-      <h2 style={{margin:'20px 0'}}>给指定用户充值:</h2>
-      <Form onSubmit={this.handleSubmit02}>
-        <FormItem
-            label="用户手机号码"
-            labelCol={{ lg: 2 }}
+    <div style={{width:'80%',margin:'0 auto'}}>
+    	<div style={{marginTop:'20px',borderBottom:'2px solid #eee'}}>
+      	<p className="dataTitle">所有用户余额充值：</p>
+        <Form onSubmit={this.handleSubmit01}>
+          <FormItem
+            label="金额(元)"
+            labelCol={{ lg: 5 }}
             wrapperCol={{ lg: 4 }}
           >
-            {getFieldDecorator('phone', {
-              rules: [{ required: true, message: '请输入用户的手机号码!' }],
+            {getFieldDecorator('note', {
+              rules: [{ required: true, message: '请输入充值金额!' }],
             })(
               <Input onChange={this.handleChange} />
             )}
           </FormItem>
-        <FormItem
-          label="金额"
-          labelCol={{ lg: 2 }}
-          wrapperCol={{ lg: 4 }}
-        >
-          {getFieldDecorator('money', {
-            rules: [{ required: true, message: '请输入要充值的金额!' }],
-          })(
-            <Input onChange={this.handleChange} />
-          )}
-        </FormItem>
-        <FormItem
-          wrapperCol={{ lg: 6, offset: 2 }}
-        >
-          <Button type="primary" htmlType="submit">
-            充值
-          </Button>
-        </FormItem>
-      </Form>
+          <FormItem
+            wrapperCol={{ lg: 6, offset: 5 }}
+          >
+            <Button type="primary" htmlType="submit">
+              充值
+            </Button>
+          </FormItem>
+        </Form>
+        </div>
+      <div style={{marginTop:'20px',borderBottom:'2px solid #eee'}}>
+        <p className="dataTitle">指定用户余额充值：</p>
+        <Form onSubmit={this.handleSubmit02}>
+          <FormItem
+            label="金额(元)"
+            labelCol={{ lg: 5 }}
+            wrapperCol={{ lg: 4 }}
+          >
+            {getFieldDecorator('money', {
+              rules: [{ required: true, message: '请输入充值金额!' }],
+            })(
+              <Input onChange={this.handleChange} />
+            )}
+          </FormItem>
+          <FormItem
+              label="用户手机号码"
+              labelCol={{ lg: 5 }}
+              wrapperCol={{ lg: 4 }}
+            >
+              {getFieldDecorator('phone', {
+                rules: [{ required: true, message: '请输入用户的手机号码!' }],
+              })(
+                <Input onChange={this.handleChange} />
+              )}
+            </FormItem>
+          <FormItem
+            wrapperCol={{ lg: 6, offset: 5 }}
+          >
+            <Button type="primary" htmlType="submit">
+              充值
+            </Button>
+          </FormItem>
+        </Form>
       </div>
+    </div>
     );
   }
 }
