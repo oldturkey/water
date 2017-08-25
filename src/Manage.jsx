@@ -5,7 +5,7 @@ var ReactHighcharts = require('react-highcharts');
 
 export default class Content extends React.Component {
 	state = { 
-		manage1:{todayrecharge:0,todayconsume:0,remain:0},
+		manage1:{recharge:0,present:0,todayrecharge:0,todayconsume:0,remain:0},
 		categories: [] ,
 		data01:  [],
 		data02: []
@@ -80,15 +80,23 @@ export default class Content extends React.Component {
 			<div>
 				<Row style={{borderBottom:'2px solid #eee'}}> 
 				<p className="dataTitle">经营数据：</p>
-					<Col lg={8} className="Box">
-						<p className="Title">今日充值金额(元)：</p>
+					<Col lg={4} offset={2} className="Box">
+						<p className="Title">今日用户充值金额(元)：</p>
+						<p className="Data">{this.state.manage1.recharge} </p>
+					</Col>
+					<Col lg={4} className="Box">
+						<p className="Title">今日赠送金额(元)：</p>
+						<p className="Data">{this.state.manage1.present} </p>
+					</Col>
+					<Col lg={4} className="Box">
+						<p className="Title">今日充值总金额(元)：</p>
 						<p className="Data">{this.state.manage1.todayrecharge} </p>
 					</Col>
-					<Col lg={8} className="Box">
+					<Col lg={4} className="Box">
 						<p className="Title">今日消费金额(元)：</p>
 						<p className="Data">{this.state.manage1.todayconsume} </p>
 					</Col>
-					<Col lg={8} className="Box">
+					<Col lg={4} className="Box">
 						<p className="Title">账户总余额(元)：</p>
 						<p className="Data">{this.state.manage1.remain} </p>
 					</Col>

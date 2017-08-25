@@ -1,6 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
-import { Form,  Input, Button } from 'antd';
+import { Form,  Input, Button,InputNumber } from 'antd';
 const FormItem = Form.Item;
 
 
@@ -38,7 +38,7 @@ class App extends React.Component {
     e.preventDefault();
     this.props.form.validateFields(['phone','money'],(err, values) => {
       $.ajax({
-        url:'http://192.168.31.14:8080/rechargePerson',
+        url:'/rechargePerson',
         dataType:'json',
         type:'POST',
         data:{money:values.money,adminName:user,phone:values.phone},
@@ -72,7 +72,7 @@ class App extends React.Component {
             {getFieldDecorator('note', {
               rules: [{ required: true, message: '请输入充值金额!' }],
             })(
-              <Input onChange={this.handleChange} />
+              <InputNumber min={1}  max={50}/>
             )}
           </FormItem>
           <FormItem
@@ -95,7 +95,7 @@ class App extends React.Component {
             {getFieldDecorator('money', {
               rules: [{ required: true, message: '请输入充值金额!' }],
             })(
-              <Input onChange={this.handleChange} />
+              <InputNumber min={1}  max={50}/>
             )}
           </FormItem>
           <FormItem
@@ -106,7 +106,7 @@ class App extends React.Component {
               {getFieldDecorator('phone', {
                 rules: [{ required: true, message: '请输入用户的手机号码!' }],
               })(
-                <Input onChange={this.handleChange} />
+                <Input />
               )}
             </FormItem>
           <FormItem
