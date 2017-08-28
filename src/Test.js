@@ -11,7 +11,7 @@ class Test extends React.Component {
     this.props.form.validateFields((err, values) => {
     	if (!err) {
 		    $.ajax({
-		    	url:'http://119.23.210.52/watermachineplateform/parameter',
+		    	url:'http://119.23.210.52:80/watermachineplateform/parameter',
 		    	dataType:'json',
 		    	type:'POST',
 		    	data:{displayId:values.id,openTime:values.openTime?values.openTime:'',pulse:values.pulse?values.pulse:'',heartRate:values.heartRate?values.heartRate:'',hotPulse:values.hotPulse?values.hotPulse:''},
