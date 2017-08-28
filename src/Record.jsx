@@ -5,7 +5,7 @@ import { Row, Col ,Table} from 'antd';
 export default class product extends React.Component {
 	lodaDataFromServer=()=>{
 		$.ajax({
-			url:'/record',
+			url:'http://112.124.6.31:80/watermachineplateform/record',
 			dataType:'json',
 			success:function(data){
 				this.setState({data:data.record2,
@@ -21,11 +21,11 @@ export default class product extends React.Component {
 		data:[],
 		record1:{"todayflow": 0,"averflow":0,"totalflow":0,"hisaverflow":0}
 	}
-	componentDidMount=()=>{
+	componentDidMount(){
 		this.lodaDataFromServer();
 		this.time=setInterval(this.lodaDataFromServer,120000);
 	}
-	componentWillUnmount=()=>{
+	componentWillUnmount(){
 		clearInterval(this.time);
 	}
 	onChange = (pagination, filters, sorter)=>{
@@ -60,26 +60,26 @@ export default class product extends React.Component {
 		return(
 			<div>
 				<Row style={{borderBottom:'2px solid #eee'}}>
-					<p className="dataTitle">数据统计：</p>
+					<p className="dataTitle">数据统计</p>
 					<Col lg={6} className="Box">
-						<p className="Title">当天供水总量(L)：</p>
+						<p className="Title">当天供水总量(L)</p>
 						<p className="Data">{this.state.record1.todayflow.toFixed(2)} </p>
 					</Col>
 					<Col lg={6} className="Box">
-							<p className="Title">今日平均每台供水量(L)：</p>
+							<p className="Title">今日平均每台供水量(L)</p>
 						    <p className="Data">{this.state.record1.averflow.toFixed(2)} </p>
 					</Col>
 					<Col lg={6} className="Box">
-						<p className="Title">历史供水总量(L)：</p>
+						<p className="Title">历史供水总量(L)</p>
 						<p className="Data">{this.state.record1.totalflow.toFixed(1)} </p>
 					</Col>
 					<Col lg={6} className="Box">
-						<p className="Title">历史平均每台供水量(L)：</p>
+						<p className="Title">历史平均每台供水量(L)</p>
 						<p className="Data">{this.state.record1.hisaverflow.toFixed(1)} </p>
 					</Col>
 				</Row>
 				<Row style={{paddingTop:'20px'}}>
-					<p className="dataTitle">设备数据：</p>
+					<p className="dataTitle">设备数据</p>
 					<Col lg={20} offset={2} >
 						<Table columns={columns} dataSource={data} onChange={this.onChange} bordered style={{textAlign:'center'}}/>
 					</Col>

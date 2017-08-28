@@ -12,7 +12,7 @@ export default class Content extends React.Component {
 	}
 	loaDataFromServer=()=>{
 		$.ajax({
-			url:'/manage',
+			url:'http://112.124.6.31:80/watermachineplateform/manage',
 			dataType:'JSON',
 			success:function(data){
 				this.setState({
@@ -27,11 +27,11 @@ export default class Content extends React.Component {
 			}.bind(this)
 		});
 	}
-	componentDidMount=()=>{
+	componentDidMount(){
 		this.loaDataFromServer();
 		this.time = setInterval(this.loaDataFromServer,120000);
 	}
-	componentWillUnmount=()=>{
+	componentWillUnmount(){
 		clearInterval(this.time);
 	}
 	render() {
@@ -79,30 +79,30 @@ export default class Content extends React.Component {
 		return(
 			<div>
 				<Row style={{borderBottom:'2px solid #eee'}}> 
-				<p className="dataTitle">经营数据：</p>
+				<p className="dataTitle">经营数据</p>
 					<Col lg={4} offset={2} className="Box">
-						<p className="Title">今日用户充值金额(元)：</p>
+						<p className="Title">今日充值金额(元)</p>
 						<p className="Data">{this.state.manage1.recharge} </p>
 					</Col>
 					<Col lg={4} className="Box">
-						<p className="Title">今日赠送金额(元)：</p>
+						<p className="Title">今日赠送金额(元)</p>
 						<p className="Data">{this.state.manage1.present} </p>
 					</Col>
 					<Col lg={4} className="Box">
-						<p className="Title">今日充值总金额(元)：</p>
+						<p className="Title">今日充值总金额(元)</p>
 						<p className="Data">{this.state.manage1.todayrecharge} </p>
 					</Col>
 					<Col lg={4} className="Box">
-						<p className="Title">今日消费金额(元)：</p>
+						<p className="Title">今日消费金额(元)</p>
 						<p className="Data">{this.state.manage1.todayconsume} </p>
 					</Col>
 					<Col lg={4} className="Box">
-						<p className="Title">账户总余额(元)：</p>
+						<p className="Title">账户总余额(元)</p>
 						<p className="Data">{this.state.manage1.remain} </p>
 					</Col>
 				</Row>
 				<Row style={{paddingTop:'20px'}}>
-					<p className="dataTitle">当月数据：</p>
+					<p className="dataTitle">当月数据</p>
 					<Col lg={20} offset={2}>
 						<ReactHighcharts config = {config}></ReactHighcharts>
 					</Col>

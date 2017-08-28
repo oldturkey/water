@@ -13,7 +13,7 @@ class App extends React.Component {
     var _this = this;
     this.props.form.validateFields(['note'],(err, values) => {
     $.ajax({
-    	url:'/rechargeAll',
+    	url:'http://112.124.6.31:80/watermachineplateform/rechargeAll',
     	dataType:'json',
     	type:'POST',
     	data:{money:values.note,adminName:user},
@@ -38,7 +38,7 @@ class App extends React.Component {
     e.preventDefault();
     this.props.form.validateFields(['phone','money'],(err, values) => {
       $.ajax({
-        url:'/rechargePerson',
+        url:'http://112.124.6.31:80/watermachineplateform/rechargePerson',
         dataType:'json',
         type:'POST',
         data:{money:values.money,adminName:user,phone:values.phone},
@@ -60,9 +60,9 @@ class App extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;  
     return (
-    <div style={{width:'80%',margin:'0 auto'}}>
+    <div >
     	<div style={{marginTop:'20px',borderBottom:'2px solid #eee'}}>
-      	<p className="dataTitle">所有用户余额充值：</p>
+      	<p className="dataTitle">所有用户余额充值</p>
         <Form onSubmit={this.handleSubmit01}>
           <FormItem
             label="金额(元)"
@@ -85,7 +85,7 @@ class App extends React.Component {
         </Form>
         </div>
       <div style={{marginTop:'20px',borderBottom:'2px solid #eee'}}>
-        <p className="dataTitle">指定用户余额充值：</p>
+        <p className="dataTitle">指定用户余额充值</p>
         <Form onSubmit={this.handleSubmit02}>
           <FormItem
             label="金额(元)"
@@ -108,6 +108,7 @@ class App extends React.Component {
               })(
                 <Input />
               )}
+              <p>(多个账户请用 ',' 分割)</p>
             </FormItem>
           <FormItem
             wrapperCol={{ lg: 6, offset: 5 }}

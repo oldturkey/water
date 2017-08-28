@@ -18,8 +18,13 @@ export default class App extends Component {
       var c = ca[i].trim();
       if (c.indexOf(name)===0) return c.substring(name.length,c.length);
     }
-    return "1";
+    return "";
    }
+  componentWillMount() {
+    if(this.getCookie('user')===""){
+      this.props.history.replace('/');
+    }
+  }
   render() {
     const admin = this.getCookie('user');
     const menu = (
@@ -38,6 +43,7 @@ export default class App extends Component {
             <Dropdown overlay={menu}>
                 <Avatar size="large" style={{top:'10px',backgroundColor: '#49a9ee'}}>{admin}</Avatar>
             </Dropdown>
+            <span style={{color:'#fff',position:'relative',bottom:'3px',left:'13px'}}>{new Date().toLocaleTimeString()}</span>
             </p>
         </Header>
         <Content style={{ padding: '0 50px' }}>
