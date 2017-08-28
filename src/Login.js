@@ -20,7 +20,7 @@ class NormalLoginForm extends React.Component {
         console.log('Received values of form: ', values);
         var _this = this;
         $.ajax({
-          url:'http://112.124.6.31:80/watermachineplateform/login',
+          url:'http://119.23.210.52/watermachineplateform/login',
           dataType:'json',
           type:'POST',
           data:{name:values.userName,password:values.password},

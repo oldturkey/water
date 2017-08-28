@@ -13,7 +13,7 @@ class App extends React.Component {
     var _this = this;
     this.props.form.validateFields(['note'],(err, values) => {
     $.ajax({
-    	url:'http://112.124.6.31:80/watermachineplateform/rechargeAll',
+    	url:'http://119.23.210.52/watermachineplateform/rechargeAll',
     	dataType:'json',
     	type:'POST',
     	data:{money:values.note,adminName:user},

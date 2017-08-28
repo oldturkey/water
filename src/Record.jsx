@@ -5,7 +5,7 @@ import { Row, Col ,Table} from 'antd';
 export default class product extends React.Component {
 	lodaDataFromServer=()=>{
 		$.ajax({
-			url:'http://112.124.6.31:80/watermachineplateform/record',
+			url:'http://119.23.210.52/watermachineplateform/record',
 			dataType:'json',
 			success:function(data){
 				this.setState({data:data.record2,

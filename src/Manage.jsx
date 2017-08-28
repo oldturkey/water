@@ -12,7 +12,7 @@ export default class Content extends React.Component {
 	}
 	loaDataFromServer=()=>{
 		$.ajax({
-			url:'http://112.124.6.31:80/watermachineplateform/manage',
+			url:'http://119.23.210.52/watermachineplateform/manage',
 			dataType:'JSON',
 			success:function(data){
 				this.setState({
