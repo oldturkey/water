@@ -20,13 +20,15 @@ class NormalLoginForm extends React.Component {
         console.log('Received values of form: ', values);
         var _this = this;
         $.ajax({
-          url:'http://119.23.210.52:80/watermachineplateform/login',
+          url:'http://192.168.31.14:8080/login',
           dataType:'json',
           type:'POST',
           data:{name:values.userName,password:values.password},
           success:function(data){
-            if(data===true){
+            if(data.status===1){
               _this.setCookie('user',values.userName);
+              var storage=window.localStorage;
+              storage.token = data.token;
               _this.props.history.push('./app');
             }else{
               alert('登录失败');
