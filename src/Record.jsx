@@ -4,11 +4,13 @@ import { Row, Col ,Table} from 'antd';
 
 export default class product extends React.Component {
 	lodaDataFromServer=()=>{
-		var token01 = window.localStorage["token"];
+		var token = window.localStorage["token"];
 		$.ajax({
-			url:'http://192.168.31.14:8080/record',
+			url:'/record',
 			dataType:'json',
-			data:{token:token01},
+			headers: {
+			    'Authorization': token,
+			  },
 			success:function(data){
 				this.setState({data:data.record2,
 					record1:data.record1

@@ -33,18 +33,17 @@
 .ant-menu-inline .ant-menu-item:after, .ant-menu-vertical .ant-menu-item:after{
   border: none!important;
 }
-.ant-menu-item > a {
+.ant-menu-inline .ant-menu-submenu-title,.ant-menu-item > a {
   font-size:13pt;
-  text-align:center;
 }
 .dataTitle {
-  text-indent: 6pt;
-  font-size:16pt;
-  height:24pt;
-  line-height:20pt;
-  border-left: 4px solid #49a9ee;
-  margin-bottom: 15px;
-  color:#000;
+    text-indent: 4pt;
+    font-size: 16pt;
+    height: 16pt;
+    line-height: 14pt;
+    border-left: 4px solid #49a9ee;
+    margin-bottom: 15px;
+    color: #000;
 }
 .App-intro {
   font-size: large;
