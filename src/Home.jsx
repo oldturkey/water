@@ -81,7 +81,7 @@ export default class product extends React.Component {
 							</Col>
 						</Row>
 					</Col>
-					<Col lg = {15} style={{padding:'0 5px'}}>
+					<Col lg = {15} style={{padding:'0 0 0 25px'}}>
 						<p className="dataTitle">昨日统计</p>
 						<Row>
 							<Col lg={6} className="Box">

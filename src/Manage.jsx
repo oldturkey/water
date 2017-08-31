@@ -11,9 +11,13 @@ export default class Content extends React.Component {
 		data02: []
 	}
 	loaDataFromServer=()=>{
+		var token = window.localStorage["token"];
 		$.ajax({
 			url:'http://119.23.210.52:80/watermachineplateform/manage',
 			dataType:'JSON',
+			headers: {
+			    'Authorization': token,
+			  },
 			success:function(data){
 				this.setState({
 					manage1:data.manage1,

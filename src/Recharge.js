@@ -5,8 +5,8 @@ const FormItem = Form.Item;
 
 
 class App extends React.Component {
-  
   handleSubmit01 = (e) => {
+    const token = window.localStorage["token"];
     e.preventDefault();
     this.props.form.resetFields(['phone','money']);
     var user = this.props.admin;
@@ -16,6 +16,9 @@ class App extends React.Component {
     	url:'http://119.23.210.52:80/watermachineplateform/rechargeAll',
     	dataType:'json',
     	type:'POST',
+      headers: {
+          'Authorization': token,
+        },
     	data:{money:values.note,adminName:user},
     	success:function(data){
         if(data===1){
@@ -32,6 +35,7 @@ class App extends React.Component {
     });
   }
   handleSubmit02 = (e) => {
+    const token = window.localStorage["token"];
     this.props.form.resetFields(['note']);
     var user = this.props.admin;
     var _this = this;
@@ -41,6 +45,9 @@ class App extends React.Component {
         url:'http://112.124.6.31:80/watermachineplateform/rechargePerson',
         dataType:'json',
         type:'POST',
+        headers: {
+          'Authorization': token,
+        },
         data:{money:values.money,adminName:user,phone:values.phone},
         success:function(data){
           if(data===1){

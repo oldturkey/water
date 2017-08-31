@@ -5,6 +5,7 @@ import './App.css';
 import Home from './Home';
 import Record from './Record';
 import Manage from './Manage';
+import userTotal from './userTotal';
 import userData from './userData';
 import Recharge from './Recharge';
 
@@ -47,11 +48,11 @@ export default class App extends Component {
             <Dropdown overlay={menu}>
                 <Avatar size="large" style={{top:'10px',backgroundColor: '#49a9ee'}}>{admin}</Avatar>
             </Dropdown>
-            <span style={{color:'#fff',position:'relative',bottom:'3px',left:'13px'}}>{new Date().toLocaleTimeString()}</span>
+            <span style={{color:'#fff',position:'relative',bottom:'3px',left:'13px'}}>{new Date().toLocaleString()}</span>
             </p>
         </Header>
-        <Content style={{ padding: '0 50px' }}>
-          <Layout style={{ padding: '24px 0', background: '#fff' ,margin:'40px 0 0 0'}}>
+        <Content style={{ padding: '0 30px' }}>
+          <Layout style={{ padding: '24px 0', background: '#fff' ,margin:'20px 0 0 0'}}>
             <Sider width={200} style={{ background: '#fff' }}>
               <Menu
                 mode="inline"
@@ -62,7 +63,7 @@ export default class App extends Component {
               <Menu.Item key="1" ><Link to='/app'><Icon type="home" />首页</Link></Menu.Item>
                <SubMenu key="sub2" title={<span><Icon type="schedule" />统计管理</span>}>
                   <Menu.Item key="2"><Link to='/app/record'><Icon type="shop" />流量统计</Link></Menu.Item>
-                  <Menu.Item key="3"><Link to='/app/manage'><Icon type="user" />用户统计</Link></Menu.Item>
+                  <Menu.Item key="3"><Link to='/app/userTotal'><Icon type="user" />用户统计</Link></Menu.Item>
                   <Menu.Item key="4"><Link to='/app/manage'><Icon type="pay-circle-o" />金额统计</Link></Menu.Item>
                 </SubMenu>
                 <SubMenu key="sub3" title={<span><Icon type="setting" />设备管理</span>}>
@@ -77,11 +78,12 @@ export default class App extends Component {
               <Menu.Item key="10" ><Link to='/app/test'><Icon type="fork" />测试用例</Link></Menu.Item>          
               </Menu>
             </Sider>
-            <Content style={{ padding: '0 24px', minHeight: 730 }}>        
+            <Content style={{ padding: '0 24px', minHeight: 750 }}>        
                 <Route  exact path='/app' component={Home}/>
                  <Route  exact path='/app/record' component={Record}/>
                 <Route path='/app/manage' component={Manage}/>
                 <Route path='/app/recharge' render={() => <Recharge admin={admin} />} /> 
+                <Route path='/app/userTotal' component={userTotal}/>
                 <Route path='/app/userData' component={userData}/>
                 <Route path='/app/test' component={Test}/>    
             </Content>

@@ -85,7 +85,7 @@ export default class product extends React.Component {
 				<Row style={{paddingTop:'20px'}}>
 					<p className="dataTitle">设备数据</p>
 					<Col lg={20} offset={2} >
-						<Table columns={columns} dataSource={data} onChange={this.onChange} bordered style={{textAlign:'center'}}/>
+						<Table columns={columns}  dataSource={data} onChange={this.onChange} bordered style={{textAlign:'center'}}/>
 					</Col>
 				</Row>
 			</div>

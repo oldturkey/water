@@ -9,11 +9,15 @@ class Test extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
+    	var token = window.localStorage["token"];
     	if (!err) {
 		    $.ajax({
 		    	url:'http://119.23.210.52:80/watermachineplateform/parameter',
 		    	dataType:'json',
 		    	type:'POST',
+		    	headers: {
+			    'Authorization': token,
+			  	},
 		    	data:{displayId:values.id,openTime:values.openTime?values.openTime:'',pulse:values.pulse?values.pulse:'',heartRate:values.heartRate?values.heartRate:'',hotPulse:values.hotPulse?values.hotPulse:''},
 		    	success:function(data){
 		        if(data===1){
