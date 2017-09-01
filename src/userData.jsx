@@ -108,13 +108,6 @@ const RangePicker = DatePicker.RangePicker;
             </FormItem>
           </Col>
           <Col span={12} key={2} >
-            <FormItem {...formItemLayout} label={`订单号`}>
-              {getFieldDecorator(`orderNumber`)(
-                <Input placeholder="请输入订单号码" />
-              )}
-            </FormItem>
-          </Col>
-          <Col span={12} key={3} >
             <FormItem {...formItemLayout} label={`订单类型`}>
               {getFieldDecorator(`orderType`)(
                 <Select mode="multiple" placeholder="请选择订单类型">
@@ -125,7 +118,7 @@ const RangePicker = DatePicker.RangePicker;
               )}
             </FormItem>
           </Col>
-          <Col span={12} key={4} >
+          <Col span={12} key={3} >
             <FormItem {...formItemLayout} label={`订单时间`}>
               {getFieldDecorator(`orderTime`)(
                  <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" />
