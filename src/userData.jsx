@@ -136,9 +136,9 @@ const RangePicker = DatePicker.RangePicker;
         </Row>
       </Form>
         <p className="dataTitle" >用户信息</p>
-        <Table columns={columns}   onChange={this.onChange} rowSelection bordered style={{textAlign:'center'}}/>
+        <Table columns={columns}   onChange={this.onChange} rowSelection={this.rowSelection} bordered style={{textAlign:'center'}}/>
         <p className="dataTitle" style={{marginTop:20}}>订单查询结果</p>
-        <Table columns={columnsOrder}   onChange={this.onChange} rowSelection bordered style={{textAlign:'center'}}/>
+        <Table columns={columnsOrder}   onChange={this.onChange} rowSelection={this.rowSelection} bordered style={{textAlign:'center'}}/>
       </div>
       ) 
   }
