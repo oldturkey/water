@@ -173,7 +173,8 @@ export default class EditableTable extends React.Component {
     const columns = this.columns;
     return (
       <div>
-        <Button className="editable-add-btn" onClick={this.handleAdd}>Add</Button>
+        <p className="dataTitle" >设备管理</p>
+        <Button className="editable-add-btn" onClick={this.handleAdd}>添加设备</Button>
         <Table bordered dataSource={dataSource} columns={columns} />
       </div>
     );

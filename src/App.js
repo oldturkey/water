@@ -9,6 +9,7 @@ import userTotal from './userTotal';
 import userData from './userData';
 import Recharge from './Recharge';
 import deviceManage from './deviceManage';
+import feedBack from './feedBack';
 
 import Test from './Test';
 
@@ -67,15 +68,12 @@ export default class App extends Component {
                   <Menu.Item key="3"><Link to='/app/userTotal'><Icon type="user" />用户统计</Link></Menu.Item>
                   <Menu.Item key="4"><Link to='/app/manage'><Icon type="pay-circle-o" />金额统计</Link></Menu.Item>
                 </SubMenu>
-                <SubMenu key="sub3" title={<span><Icon type="setting" />设备管理</span>}>
                   <Menu.Item key="5"><Link to='/app/deviceManage'><Icon type="tool" />设备管理</Link></Menu.Item>
-                  <Menu.Item key="6"><Link to='/app/manage'><Icon type="bell" />设备监控</Link></Menu.Item>
-                </SubMenu>
                 <SubMenu key="sub4" title={<span><Icon type="user" />用户</span>}>
                   <Menu.Item key="7" ><Link to='/app/userData'><Icon type="usergroup-add" />用户数据</Link></Menu.Item>
                   <Menu.Item key="8" ><Link to='/app/recharge'><Icon type="bank" />金额发放</Link></Menu.Item>
                 </SubMenu>
-              <Menu.Item key="9" ><Link to='/app/test'><Icon type="customer-service" />反馈</Link></Menu.Item>
+              <Menu.Item key="9" ><Link to='/app/feedBack'><Icon type="customer-service" />反馈</Link></Menu.Item>
               <Menu.Item key="10" ><Link to='/app/test'><Icon type="fork" />测试用例</Link></Menu.Item>          
               </Menu>
             </Sider>
@@ -88,6 +86,7 @@ export default class App extends Component {
                 <Route path='/app/userData' component={userData}/>
                 <Route path='/app/test' component={Test}/>  
                 <Route path='/app/deviceManage' component={deviceManage}/> 
+                <Route path='/app/feedBack' component={feedBack}/> 
              
             </Content>
           </Layout>
