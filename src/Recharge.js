@@ -108,6 +108,7 @@ class App extends React.Component {
   }
   handleSubmitRecord = (e) => {
     e.preventDefault();
+    
   }
   onInputChange = (e) => {
     this.setState({ searchText: e.target.value });

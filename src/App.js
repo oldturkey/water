@@ -8,6 +8,7 @@ import Manage from './Manage';
 import userTotal from './userTotal';
 import userData from './userData';
 import Recharge from './Recharge';
+import deviceManage from './deviceManage';
 
 import Test from './Test';
 
@@ -67,7 +68,7 @@ export default class App extends Component {
                   <Menu.Item key="4"><Link to='/app/manage'><Icon type="pay-circle-o" />金额统计</Link></Menu.Item>
                 </SubMenu>
                 <SubMenu key="sub3" title={<span><Icon type="setting" />设备管理</span>}>
-                  <Menu.Item key="5"><Link to='/app/manage'><Icon type="tool" />设备管理</Link></Menu.Item>
+                  <Menu.Item key="5"><Link to='/app/deviceManage'><Icon type="tool" />设备管理</Link></Menu.Item>
                   <Menu.Item key="6"><Link to='/app/manage'><Icon type="bell" />设备监控</Link></Menu.Item>
                 </SubMenu>
                 <SubMenu key="sub4" title={<span><Icon type="user" />用户</span>}>
@@ -85,7 +86,9 @@ export default class App extends Component {
                 <Route path='/app/recharge' render={() => <Recharge admin={admin} />} /> 
                 <Route path='/app/userTotal' component={userTotal}/>
                 <Route path='/app/userData' component={userData}/>
-                <Route path='/app/test' component={Test}/>    
+                <Route path='/app/test' component={Test}/>  
+                <Route path='/app/deviceManage' component={deviceManage}/> 
+             
             </Content>
           </Layout>
         </Content>
