@@ -2,6 +2,8 @@
 import $ from 'jquery';
 import { Table, Input, Icon, Button, Popconfirm } from 'antd';
 import './device.css';
+
+const token = window.localStorage["token"];
 class EditableCell extends React.Component {
   state = {
     value: this.props.value,
@@ -54,51 +56,89 @@ class EditableCell extends React.Component {
 }
      
 export default class EditableTable extends React.Component {
+  lodaDataFromServer=()=>{
+    var token = window.localStorage["token"];
+    $.ajax({
+      url:'/device/get',
+      dataType:'json',
+      headers: {
+          'Authorization': token,
+        },
+      success:function(data){
+        this.setState({dataSource:data.dataSource,
+          count:data.count
+        });
+      }.bind(this),
+      error:function(xhr,status,err){
+        console.error(this.props.url,status,err.toString());
+      }.bind(this)
+    });
+  }
+  componentDidMount(){
+    this.lodaDataFromServer();
+    this.time=setInterval(this.lodaDataFromServer,120000);
+  }
+  componentWillUnmount(){
+    clearInterval(this.time);
+  }
   constructor(props) {
     super(props);
     this.columns = [{
       title: 'IMEI号',
-      dataIndex: 'IMEI',
-      width: '20%',
+      dataIndex: 'imei',
+      width: '12%',
       render: (text, record) => (
         <EditableCell
           value={text}
-          onChange={this.onCellChange(record.key, 'IMEI')}
+          onChange={this.onCellChange(record.key, 'imei')}
         />
       ),
-    }, {
+    }, , {
+      title: '设备编号',
+      dataIndex: 'displayId',
+      width: '12%',
+    },{
       title: 'SIM卡号',
-      dataIndex: 'SIM',
-      width: '20%',
+      dataIndex: 'simId',
+      width: '12%',
       render: (text, record) => (
         <EditableCell
           value={text}
-          onChange={this.onCellChange(record.key, 'SIM')}
+          onChange={this.onCellChange(record.key, 'simId')}
         />
       ),
     }, {
       title: '设备地址',
-      dataIndex: 'address',
-      width: '20%',
+      dataIndex: 'location',
+      width: '12%',
       render: (text, record) => (
         <EditableCell
           value={text}
-          onChange={this.onCellChange(record.key, 'address')}
+          onChange={this.onCellChange(record.key, 'location')}
         />
       ),
+    }, {
+      title: '信号强度',
+      dataIndex: 'strength',
+      width: '12%',
+    }, {
+      title: '注册时间',
+      dataIndex: 'gmtCreate',
+      width: '12%',
     },{
       title: '设备状态',
       dataIndex: 'state',
-      width: '20%',
+      width: '12%',
       render: (text) => {
-        if (text ===1) {
+        if (text ===10) {
           return <div><span style={{color:"#87D068",fontSize: 15,paddingRight: '10px'}}>●</span>在线</div>;
-        }else if (text ===2) {
-          return <div><span style={{color:"#ff5500",fontSize: 15,paddingRight: '10px'}}>●</span>异常</div>;
-        }else if (text ===3) {
+        }else if (text ===11) {
+          return <div><span style={{color:"#2DB7F5",fontSize: 15,paddingRight: '10px'}}>●</span>使用中</div>;
+        }else if (text ===12) {
+          return <div><span style={{color:"#FF5500",fontSize: 15,paddingRight: '10px'}}>●</span>下单中</div>;
+        }else if (text ===23) {
           return <div><span style={{color:"#CCC",fontSize: 15,paddingRight: '10px'}}>●</span>离线</div>;
         }
-        
       },
     }, {
       title: '操作',
@@ -120,22 +160,22 @@ export default class EditableTable extends React.Component {
     this.state = {
       dataSource: [{
         key: '0',
-        IMEI: '001',
-        SIM: '1',
-        address: '西湖',
-        state:1
+        imei: '001',
+        simId: '1',
+        location: '西湖',
+        state:10
       }, {
         key: '1',
-        IMEI: '002',
-        SIM: '2',
-        address: '下沙',
-        state:2
+        imei: '002',
+        simId: '2',
+        location: '下沙',
+        state:11
       },{
         key: '2',
-        IMEI: '003',
-        SIM: '3',
-        address: '西溪',
-        state:3
+        imei: '003',
+        simId: '3',
+        location: '西溪',
+        state:12
       }],
       count: 3,
     };
@@ -152,16 +192,61 @@ export default class EditableTable extends React.Component {
   }
   onDelete = (key) => {
     const dataSource = [...this.state.dataSource];
-    this.setState({ dataSource: dataSource.filter(item => item.key !== key) });
+    const deleteItem = dataSource.filter(item => item.key == key)[0];
+    $.ajax({
+        url:'/device/delete',
+        dataType:'json',
+        type:'POST',
+        headers: {
+          'Authorization': token,
+        },
+        data:{user:deleteItem.displayId},
+        success:function(data){
+          if(data===200){
+              this.setState({ dataSource: dataSource.filter(item => item.key !== key) });
+          }else{
+            alert('删除失败');
+          }
+        },
+        error:function(xhr,status,err){
+          console.error(this.props.url,status,err.toString());
+        }.bind(this)
+      });
+  }
+  onUpDate = (key) => {
+    const dataSource = [...this.state.dataSource];
+    const upDateItem = dataSource.filter(item => item.key == key)[0];
+    $.ajax({
+        url:'/device/add',
+        dataType:'json',
+        type:'POST',
+        headers: {
+          'Authorization': token,
+        },
+        data:{imei:upDateItem.imei,address:upDateItem.location,sim:upDateItem.simId},
+        success:function(data){
+          if(data===600){
+              
+          }else{
+            alert('更新失败');
+          }
+        },
+        error:function(xhr,status,err){
+          console.error(this.props.url,status,err.toString());
+        }.bind(this)
+      });
   }
   handleAdd = () => {
     const { count, dataSource } = this.state;
     const newData = {
       key: count,
-      IMEI: `设备 ${count}`,
-      SIM: 'xx',
-      address: `xxxx`,
-      state:'在线/离线'
+      imei: `设备 ${count}`,
+      simId: 'xx',
+      location: `xxxx`,
+      state:'在线/离线',
+      displayId:'00',
+      strength:'x',
+      gmtCreate:new Date().toLocaleString()
     };
     this.setState({
       dataSource: [...dataSource, newData],

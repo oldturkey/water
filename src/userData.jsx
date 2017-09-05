@@ -1,28 +1,50 @@
 import React from 'react';
 import $ from 'jquery';
-import { Row, Col ,Table,Form, Select,Input,DatePicker, TimePicker, Button,Icon} from 'antd';
+import { Row, Col ,Table,Form, Select,Input,DatePicker,  Button,Icon} from 'antd';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RangePicker = DatePicker.RangePicker;
+const token = window.localStorage["token"];
 
  class userData extends React.Component {
+  state ={
+    data:[],
+  }
   handleSearch = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, fieldsValue) => {
       if (err) {
         return;
       }
+      let beginTime=null;
+      let endTime=null;
       // Should format date value before submit.
       const rangeTimeValue = fieldsValue['orderTime'];
-      const values = {
-        ...fieldsValue,
-        'orderTime': [
-          rangeTimeValue[0].format('YYYY-MM-DD HH:mm:ss'),
-          rangeTimeValue[1].format('YYYY-MM-DD HH:mm:ss'),
-        ],
-      };
-      console.log('Received values of form: ', values);
+      if(rangeTimeValue){
+         beginTime = rangeTimeValue[0].format('YYYY-MM-DD HH:mm:ss');
+         endTime = rangeTimeValue[1].format('YYYY-MM-DD HH:mm:ss');
+      }
+      $.ajax({
+        url:'http://112.124.6.31:80/watermachineplateform/userinfo/search/phone',
+        dataType:'json',
+        type:'POST',
+        headers: {
+          'Authorization': token,
+        },
+        data:{phone:fieldsValue['phone'],beginTime:beginTime?beginTime:'',endTime:endTime?endTime:'',type:fieldsValue['orderType']?fieldsValue['orderType']:''},
+        success:function(data){
+          if(data===1){
+              this.setState({data:data});
+          }else{
+            alert('查询失败');
+          }
+        },
+        error:function(xhr,status,err){
+          console.error(this.props.url,status,err.toString());
+        }.bind(this)
+      });
+      console.log('Received values of form: ', fieldsValue);
     });
   }
 
@@ -102,9 +124,11 @@ const RangePicker = DatePicker.RangePicker;
         <Row gutter={40}>
           <Col span={12} key={1} >
             <FormItem {...formItemLayout} label='手机号码'>
-              {getFieldDecorator(`userPhone`)(
-                <Input placeholder="请输入用户手机号码" />
-              )}
+            {getFieldDecorator('userPhone', {
+            rules: [{ required: true, message: '请输入用户手机号码!' }],
+          })(
+            <Input placeholder="请输入用户手机号码" />
+          )}
             </FormItem>
           </Col>
           <Col span={12} key={2} >
@@ -118,8 +142,8 @@ const RangePicker = DatePicker.RangePicker;
               )}
             </FormItem>
           </Col>
-          <Col span={12} key={3} >
-            <FormItem {...formItemLayout} label={`订单时间`}>
+          <Col span={12} key={3} offset={12}>
+            <FormItem {...formItemLayout} label={`订单时间`} style={{marginTop:16}}>
               {getFieldDecorator(`orderTime`)(
                  <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" />
               )}
@@ -136,9 +160,9 @@ const RangePicker = DatePicker.RangePicker;
         </Row>
       </Form>
         <p className="dataTitle" >用户信息</p>
-        <Table columns={columns}   onChange={this.onChange} rowSelection={this.rowSelection} bordered style={{textAlign:'center'}}/>
+        <Table columns={columns} dataSource={this.state.userInfo}  onChange={this.onChange} rowSelection={this.rowSelection} bordered style={{textAlign:'center'}}/>
         <p className="dataTitle" style={{marginTop:20}}>订单查询结果</p>
-        <Table columns={columnsOrder}   onChange={this.onChange} rowSelection={this.rowSelection} bordered style={{textAlign:'center'}}/>
+        <Table columns={columnsOrder} dataSource={this.state.consumeInfo}  onChange={this.onChange} rowSelection={this.rowSelection} bordered style={{textAlign:'center'}}/>
       </div>
       ) 
   }

@@ -12,7 +12,8 @@ export default class product extends React.Component {
 			    'Authorization': token,
 			  },
 			success:function(data){
-				this.setState({data:data.record2,
+				this.setState({
+					data:data.record2,
 					record1:data.record1
 				});
 			}.bind(this),

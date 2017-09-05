@@ -72,7 +72,6 @@ const data = [{
   }];
   const token = window.localStorage["token"];
 class App extends React.Component {
-  
   state = {
     filterDropdownVisible: false,
     data,
@@ -81,10 +80,32 @@ class App extends React.Component {
     filtered: false,
     selectedRowKeys: [], 
   };
+  lodaDataFromServer=()=>{
+    var token = window.localStorage["token"];
+    $.ajax({
+      url:'/recharge',
+      dataType:'json',
+      headers: {
+          'Authorization': token,
+        },
+      success:function(data){
+        this.setState({data:data});
+      }.bind(this),
+      error:function(xhr,status,err){
+        console.error(this.props.url,status,err.toString());
+      }.bind(this)
+    });
+  }
+  componentDidMount(){
+    this.lodaDataFromServer();
+    this.time=setInterval(this.lodaDataFromServer,120000);
+  }
+  componentWillUnmount(){
+    clearInterval(this.time);
+  }
   handleSubmit = (e) => {
     e.preventDefault();
     var admin = this.props.admin;
-    var _this = this;
       $.ajax({
         url:'http://112.124.6.31:80/watermachineplateform/rechargePerson',
         dataType:'json',
@@ -96,7 +117,6 @@ class App extends React.Component {
         success:function(data){
           if(data===1){
               alert('充值成功');
-              _this.props.form.resetFields(['money']);
           }else{
             alert('充值失败');
           }
@@ -108,7 +128,27 @@ class App extends React.Component {
   }
   handleSubmitRecord = (e) => {
     e.preventDefault();
-    
+    this.props.form.validateFields((err, fieldsValue) => {
+    $.ajax({
+        url:'http://112.124.6.31:80/watermachineplateform/rechargeInfo',
+        dataType:'json',
+        type:'POST',
+        headers: {
+          'Authorization': token,
+        },
+        data:{user:fieldsValue['admin']},
+        success:function(data){
+          if(data===1){
+              this.setState({data:data01});
+          }else{
+            alert('充值失败');
+          }
+        },
+        error:function(xhr,status,err){
+          console.error(this.props.url,status,err.toString());
+        }.bind(this)
+      });
+    });
   }
   onInputChange = (e) => {
     this.setState({ searchText: e.target.value });
