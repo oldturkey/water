@@ -1,6 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
-import { Row, Col ,Table,Form, Select,Input,DatePicker,  Button,Icon} from 'antd';
+import { Row, Col ,Table,Form, Select,Input,DatePicker, Button} from 'antd';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -26,15 +26,15 @@ const token = window.localStorage["token"];
          endTime = rangeTimeValue[1].format('YYYY-MM-DD HH:mm:ss');
       }
       $.ajax({
-        url:'http://112.124.6.31:80/watermachineplateform/userinfo/search/phone',
+        url:'/userinfo/search/phone',
         dataType:'json',
         type:'POST',
         headers: {
           'Authorization': token,
         },
-        data:{phone:fieldsValue['phone'],beginTime:beginTime?beginTime:'',endTime:endTime?endTime:'',type:fieldsValue['orderType']?fieldsValue['orderType']:''},
+        data:{phone:fieldsValue['phone'],beginTime:beginTime?beginTime:'',endTime:endTime?endTime:''},
         success:function(data){
-          if(data===1){
+          if(data.status===1){
               this.setState({data:data});
           }else{
             alert('查询失败');
@@ -58,17 +58,6 @@ const token = window.localStorage["token"];
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 12 },
-    };
-    const rowSelection = {
-      onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-      },
-      onSelect: (record, selected, selectedRows) => {
-        console.log(record, selected, selectedRows);
-      },
-      onSelectAll: (selected, selectedRows, changeRows) => {
-        console.log(selected, selectedRows, changeRows);
-      },
     };
     const renderContent = (value, col, index) => {
         value=value.toFixed(2);
@@ -94,24 +83,28 @@ const token = window.localStorage["token"];
         title: '注册时间',
         dataIndex: 'regTime',
       }];
-      const columnsOrder = [{
+      const columnsOrder01 = [{
         title: '订单编号',
-        dataIndex: 'orderId',
+        dataIndex: 'orderNo',
       }, {
-        title: '订单类型',
-        dataIndex: 'orderType',
+        title: '订单地址',
+        dataIndex: 'devcieLocation',
       }, {
         title: '订单时间',
-        dataIndex: 'orderTime',
+        dataIndex: 'gmtCreate',
       }, {
         title: '消费金额',
-        dataIndex: 'balance',
+        dataIndex: 'payment',
+      }];
+      const columnsOrder02 = [{
+        title: '订单编号',
+        dataIndex: 'orderNo',
+      }, {
+        title: '订单时间',
+        dataIndex: 'gmtCreate',
       }, {
         title: '充值金额',
-        dataIndex: 'recharge',
-      }, {
-        title: '是否成功',
-        dataIndex: 'success',
+        dataIndex: 'payment',
       }];
     return(
       <div>
@@ -131,19 +124,9 @@ const token = window.localStorage["token"];
           )}
             </FormItem>
           </Col>
+          
           <Col span={12} key={2} >
-            <FormItem {...formItemLayout} label={`订单类型`}>
-              {getFieldDecorator(`orderType`)(
-                <Select mode="multiple" placeholder="请选择订单类型">
-                  <Option value="消费记录">消费记录</Option>
-                  <Option value="充值记录">充值记录</Option>
-                  <Option value="赠送记录">赠送记录</Option>
-                </Select>
-              )}
-            </FormItem>
-          </Col>
-          <Col span={12} key={3} offset={12}>
-            <FormItem {...formItemLayout} label={`订单时间`} style={{marginTop:16}}>
+            <FormItem {...formItemLayout} label={`订单时间`} >
               {getFieldDecorator(`orderTime`)(
                  <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" />
               )}
@@ -151,7 +134,7 @@ const token = window.localStorage["token"];
           </Col>
         </Row>
         <Row>
-          <Col span={24} offset={19}>
+          <Col span={24} offset={18}>
             <Button type="primary" htmlType="submit">搜索</Button>
             <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>
               清空
@@ -159,11 +142,17 @@ const token = window.localStorage["token"];
           </Col>
         </Row>
       </Form>
-        <p className="dataTitle" >用户信息</p>
-        <Table columns={columns} dataSource={this.state.userInfo}  onChange={this.onChange} rowSelection={this.rowSelection} bordered style={{textAlign:'center'}}/>
-        <p className="dataTitle" style={{marginTop:20}}>订单查询结果</p>
-        <Table columns={columnsOrder} dataSource={this.state.consumeInfo}  onChange={this.onChange} rowSelection={this.rowSelection} bordered style={{textAlign:'center'}}/>
-      </div>
+        <p className="dataTitle" >订单查询结果</p>
+        <Table columns={columns} dataSource={this.state.data.userInfo}  onChange={this.onChange} rowSelection={this.rowSelection} bordered style={{textAlign:'center',marginBottom:20}}/>
+        <Row>
+          <Col lg={14}>
+            <Table columns={columnsOrder01} title={ () => '充值记录'} dataSource={this.state.data.consumeInfo}  onChange={this.onChange} rowSelection={this.rowSelection} bordered style={{textAlign:'center',padding:'0 10px'}}/>
+          </Col>
+          <Col lg={10}>
+            <Table columns={columnsOrder02} title={ () => '消费记录'} dataSource={this.state.data.rechargeInfo}  onChange={this.onChange} rowSelection={this.rowSelection} bordered style={{textAlign:'center'}}/>
+          </Col>
+        </Row>
+      </div>  
       ) 
   }
 }

@@ -27,6 +27,18 @@ export default class App extends Component {
     }
     return "";
    }
+   state ={
+    time:new Date().toLocaleString(),
+  }
+  tick=()=>{
+    this.setState({time:new Date().toLocaleString()}); 
+  }
+  componentDidMount(){
+    this.timer=setInterval(this.tick,1000);
+  }
+  componentWillUnmount(){
+    clearInterval(this.timer);
+  }
   // componentWillMount() {
   //   if(this.getCookie('user')===""){
   //     this.props.history.replace('/');
@@ -50,7 +62,7 @@ export default class App extends Component {
             <Dropdown overlay={menu}>
                 <Avatar size="large" style={{top:'10px',backgroundColor: '#49a9ee'}}>{admin}</Avatar>
             </Dropdown>
-            <span style={{color:'#fff',position:'relative',bottom:'3px',left:'13px'}}>{new Date().toLocaleString()}</span>
+            <span style={{color:'#fff',position:'relative',bottom:'3px',left:'13px'}}>{this.state.time}</span>
             </p>
         </Header>
         <Content style={{ padding: '0 30px' }}>

@@ -93,7 +93,7 @@ export default class EditableTable extends React.Component {
           onChange={this.onCellChange(record.key, 'imei')}
         />
       ),
-    }, , {
+    },  {
       title: '设备编号',
       dataIndex: 'displayId',
       width: '12%',
@@ -147,10 +147,10 @@ export default class EditableTable extends React.Component {
         return (
         <span>   
             <Popconfirm title="确定要删除该设备?" onConfirm={() => this.onDelete(record.key)}>
-              <a href="#">删除 </a>
+              <a href="">删除 </a>
             </Popconfirm><span>&nbsp;&nbsp;</span>
             <Popconfirm title="确定要更新该设备信息?" onConfirm={() => this.onUpDate(record.key)}>
-              <a href="#">上传更新设备状态</a>
+              <a href="">上传更新设备状态</a>
             </Popconfirm>
           </span> 
         );
@@ -192,7 +192,7 @@ export default class EditableTable extends React.Component {
   }
   onDelete = (key) => {
     const dataSource = [...this.state.dataSource];
-    const deleteItem = dataSource.filter(item => item.key == key)[0];
+    const deleteItem = dataSource.filter(item => item.key === key)[0];
     $.ajax({
         url:'/device/delete',
         dataType:'json',
@@ -215,7 +215,7 @@ export default class EditableTable extends React.Component {
   }
   onUpDate = (key) => {
     const dataSource = [...this.state.dataSource];
-    const upDateItem = dataSource.filter(item => item.key == key)[0];
+    const upDateItem = dataSource.filter(item => item.key === key)[0];
     $.ajax({
         url:'/device/add',
         dataType:'json',

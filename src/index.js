@@ -14,9 +14,9 @@ function requireAuthentication(Component) {
 
   // 创建验证组件
   class AuthenticatedComponent extends React.Component {
-    static contextTypes = {
-      router: React.PropTypes.object.isRequired,
-    }
+    // static contextTypes = {
+    //   router: React.PropTypes.object.isRequired,
+    // }
 
     componentWillMount() {
       this.checkAuth();

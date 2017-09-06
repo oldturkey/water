@@ -14,6 +14,9 @@ export default class userTotal extends React.Component {
 		$.ajax({
 			url:'http://192.168.31.14:8080/usertotal',
 			dataType:'JSON',
+			headers: {
+	          'Authorization': token,
+	        },
 			success:function(data){
 				this.setState({
 					userTotal1:data.userTotal1,

@@ -1,8 +1,7 @@
 import React from 'react';
 import $ from 'jquery';
-import { Form,  Input, Button,InputNumber,Table, Icon ,Row,Col,Popconfirm,Modal, Select,DatePicker } from 'antd';
+import { Form,  Input, Button,Table, Icon ,Row,Col,Popconfirm,Modal,DatePicker } from 'antd';
 const FormItem = Form.Item;
-const Option = Select.Option;
 const RangePicker = DatePicker.RangePicker;
 
 const data = [{
@@ -82,7 +81,7 @@ class App extends React.Component {
   onUpDate =(key) => {
     let data = [...this.state.data];
                data.forEach(function(item){
-                if(item.key==key){
+                if(item.key===key){
                   item.status=1
                 }
               });
@@ -292,10 +291,10 @@ class App extends React.Component {
         return (
         <span>   
             <Popconfirm title="确定要删除?" onConfirm={() => this.onDelete(record.key)}>
-              <a href="#">删除 </a>
+              <a href="">删除 </a>
             </Popconfirm><span>&nbsp;&nbsp;</span>
             <Popconfirm title="确定该反馈已解决?" onConfirm={() => this.onUpDate(record.key)}>
-              <a href="#">更新状态</a>
+              <a href="">更新状态</a>
             </Popconfirm>
           </span> 
         );

@@ -44,7 +44,7 @@ const data = [{
     phone: '1505335789',
     name: '管理员小明',
     time:'2017/08/05',
-    recharge:'25'
+    recharge:'25',
   }, {
     key: '2',
     phone: '1866799957',
@@ -103,17 +103,27 @@ class App extends React.Component {
   componentWillUnmount(){
     clearInterval(this.time);
   }
+  getPhoneArrary = (key) => {            
+    const dataAll = this.state.data;
+    for(var i=0;i<dataAll.length;i++){
+      if(dataAll[i].key===key){
+        return dataAll[i].phone;
+      }
+    }
+  }
   handleSubmit = (e) => {
     e.preventDefault();
-    var admin = this.props.admin;
+    const rechargePerson = this.state.selectedRowKeys.map(this.getPhoneArrary);
+    let admin = this.props.admin;
+    this.props.form.validateFields(['money'],(err, fieldsValue) => {
       $.ajax({
-        url:'http://112.124.6.31:80/watermachineplateform/rechargePerson',
+        url:'/rechargePerson',
         dataType:'json',
         type:'POST',
         headers: {
           'Authorization': token,
         },
-        data:{adminName:admin,user:this.state.selectedRowKeys},
+        data:{adminName:admin,user:rechargePerson,money:fieldsValue['money']},
         success:function(data){
           if(data===1){
               alert('充值成功');
@@ -125,12 +135,13 @@ class App extends React.Component {
           console.error(this.props.url,status,err.toString());
         }.bind(this)
       });
+    });
   }
   handleSubmitRecord = (e) => {
     e.preventDefault();
-    this.props.form.validateFields((err, fieldsValue) => {
+    this.props.form.validateFields(['admin'], (err, fieldsValue) => {
     $.ajax({
-        url:'http://112.124.6.31:80/watermachineplateform/rechargeInfo',
+        url:'/rechargeInfo',
         dataType:'json',
         type:'POST',
         headers: {
@@ -141,7 +152,7 @@ class App extends React.Component {
           if(data===1){
               this.setState({data:data01});
           }else{
-            alert('充值失败');
+            alert('查询失败');
           }
         },
         error:function(xhr,status,err){
@@ -299,14 +310,14 @@ class App extends React.Component {
         <p className="dataTitle">发放鼓励金</p>
         <Table columns={columns} rowSelection={rowSelection} dataSource={this.state.data} />
         <Row style={{padding:'20px 0'}}>
-          <Col span={20} offset={18}>
+          <Col span={20} offset={12}>
             <Form onSubmit={this.handleSubmit} layout='inline'>
               <FormItem
                 label="为选中用户充值金额(元)"
                 labelCol={{ lg: 16 }}
                 wrapperCol={{ lg: 6 }}
               >
-                {getFieldDecorator('note', {
+                {getFieldDecorator('money', {
                   rules: [{ required: true, message: '请输入充值金额!' }],
                 })(
                   <InputNumber min={1}  max={50}/>
@@ -324,8 +335,8 @@ class App extends React.Component {
         </Row>
       </div>
       <p className="dataTitle" style={{marginTop:'20px'}}>发放记录</p>
-      <Row style={{padding:'20px 0'}}>
-          <Col span={24} offset={6}>
+      <Row style={{padding:'0 0 20px'}}>
+          <Col span={24} offset={12}>
             <Form onSubmit={this.handleSubmitRecord} layout='inline'>
               <FormItem
                 label="请输入管理员用户名"
