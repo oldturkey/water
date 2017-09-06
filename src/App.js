@@ -10,6 +10,7 @@ import userData from './userData';
 import Recharge from './Recharge';
 import deviceManage from './deviceManage';
 import feedBack from './feedBack';
+import Clock from './Clock';
 
 import Test from './Test';
 
@@ -27,18 +28,8 @@ export default class App extends Component {
     }
     return "";
    }
-   state ={
-    time:new Date().toLocaleString(),
-  }
-  tick=()=>{
-    this.setState({time:new Date().toLocaleString()}); 
-  }
-  componentDidMount(){
-    this.timer=setInterval(this.tick,1000);
-  }
-  componentWillUnmount(){
-    clearInterval(this.timer);
-  }
+   
+
   // componentWillMount() {
   //   if(this.getCookie('user')===""){
   //     this.props.history.replace('/');
@@ -54,6 +45,7 @@ export default class App extends Component {
       </Menu>
     );
     return (
+    <div>
     <Layout>
         <Header className="header">
           <div className="logo" />
@@ -62,7 +54,7 @@ export default class App extends Component {
             <Dropdown overlay={menu}>
                 <Avatar size="large" style={{top:'10px',backgroundColor: '#49a9ee'}}>{admin}</Avatar>
             </Dropdown>
-            <span style={{color:'#fff',position:'relative',bottom:'3px',left:'13px'}}>{this.state.time}</span>
+            <span style={{color:'#fff',position:'relative',bottom:'3px',left:'13px'}}><Clock /></span>
             </p>
         </Header>
         <Content style={{ padding: '0 30px' }}>
@@ -99,7 +91,6 @@ export default class App extends Component {
                 <Route path='/app/test' component={Test}/>  
                 <Route path='/app/deviceManage' component={deviceManage}/> 
                 <Route path='/app/feedBack' component={feedBack}/> 
-             
             </Content>
           </Layout>
         </Content>
@@ -107,6 +98,7 @@ export default class App extends Component {
           water ©2017 Created by TaiBi
         </Footer>
       </Layout>
+      </div>
     );
   }
 }
