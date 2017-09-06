@@ -9,7 +9,7 @@ class Test extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
-    	var token = window.localStorage["token"];
+    	const token = window.localStorage["token"];
     	if (!err) {
 		    $.ajax({
 		    	url:'http://119.23.210.52:80/watermachineplateform/parameter',

@@ -3,6 +3,7 @@ import $ from 'jquery';
 import { Row, Col } from 'antd';
 var ReactHighcharts = require('react-highcharts');
 
+
 export default class Content extends React.Component {
 	state = { 
 		manage1:{recharge:0,present:0,todayrecharge:0,todayconsume:0,remain:0},
@@ -11,9 +12,9 @@ export default class Content extends React.Component {
 		data02: []
 	}
 	loaDataFromServer=()=>{
-		var token = window.localStorage["token"];
+		const token = window.localStorage["token"];
 		$.ajax({
-			url:'http://119.23.210.52:80/watermachineplateform/manage',
+			url:'/manage',
 			dataType:'JSON',
 			headers: {
 			    'Authorization': token,

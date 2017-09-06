@@ -4,7 +4,7 @@ import { Row, Col ,Table} from 'antd';
 
 export default class product extends React.Component {
 	lodaDataFromServer=()=>{
-		var token = window.localStorage["token"];
+		const token = window.localStorage["token"];
 		$.ajax({
 			url:'/home',
 			dataType:'json',

@@ -4,7 +4,7 @@ import { Row, Col ,Table} from 'antd';
 
 export default class product extends React.Component {
 	lodaDataFromServer=()=>{
-		var token = window.localStorage["token"];
+		const token = window.localStorage["token"];
 		$.ajax({
 			url:'/record',
 			dataType:'json',
@@ -28,10 +28,10 @@ export default class product extends React.Component {
 	}
 	componentDidMount(){
 		this.lodaDataFromServer();
-		this.time=setInterval(this.lodaDataFromServer,120000);
+		this.timeRecord=setInterval(this.lodaDataFromServer,120000);
 	}
 	componentWillUnmount(){
-		clearInterval(this.time);
+		clearInterval(this.timeRecord);
 	}
 	onChange = (pagination, filters, sorter)=>{
 		console.log('params', pagination, filters, sorter);

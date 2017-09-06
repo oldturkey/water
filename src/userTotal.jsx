@@ -3,6 +3,7 @@ import $ from 'jquery';
 import { Row, Col } from 'antd';
 var ReactHighcharts = require('react-highcharts');
 
+
 export default class userTotal extends React.Component {
 	state = { 
 		userTotal1:{userTotalNo:0,monthAverRecharge:0,hisAverRecharge:0,monthAverConsume:0,hisAverConsume:0},
@@ -10,10 +11,10 @@ export default class userTotal extends React.Component {
 		data01:  [],
 	}
 	loaDataFromServer=()=>{
-		var token = window.localStorage["token"];
+		const token = window.localStorage["token"];
 		$.ajax({
-			url:'http://192.168.31.14:8080/usertotal',
-			dataType:'JSON',
+			url:'/usertotal',
+			dataType:'json',
 			headers: {
 	          'Authorization': token,
 	        },
@@ -31,10 +32,10 @@ export default class userTotal extends React.Component {
 	}
 	componentDidMount(){
 		this.loaDataFromServer();
-		this.time = setInterval(this.loaDataFromServer,120000);
+		this.timeUserTotal = setInterval(this.loaDataFromServer,120000);
 	}
 	componentWillUnmount(){
-		clearInterval(this.time);
+		clearInterval(this.timeUserTotal);
 	}
 	render() {
 		const config = {

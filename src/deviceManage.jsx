@@ -3,7 +3,7 @@ import $ from 'jquery';
 import { Table, Input, Icon, Button, Popconfirm } from 'antd';
 import './device.css';
 
-const token = window.localStorage["token"];
+
 class EditableCell extends React.Component {
   state = {
     value: this.props.value,
@@ -56,8 +56,9 @@ class EditableCell extends React.Component {
 }
      
 export default class EditableTable extends React.Component {
+
   lodaDataFromServer=()=>{
-    var token = window.localStorage["token"];
+    const token = window.localStorage["token"];
     $.ajax({
       url:'/device/get',
       dataType:'json',
@@ -76,10 +77,10 @@ export default class EditableTable extends React.Component {
   }
   componentDidMount(){
     this.lodaDataFromServer();
-    this.time=setInterval(this.lodaDataFromServer,120000);
+    this.timeDeviceManage=setInterval(this.lodaDataFromServer,120000);
   }
   componentWillUnmount(){
-    clearInterval(this.time);
+    clearInterval(this.timeDeviceManage);
   }
   constructor(props) {
     super(props);
@@ -193,6 +194,7 @@ export default class EditableTable extends React.Component {
   onDelete = (key) => {
     const dataSource = [...this.state.dataSource];
     const deleteItem = dataSource.filter(item => item.key === key)[0];
+    const token = window.localStorage["token"];
     $.ajax({
         url:'/device/delete',
         dataType:'json',
@@ -216,6 +218,7 @@ export default class EditableTable extends React.Component {
   onUpDate = (key) => {
     const dataSource = [...this.state.dataSource];
     const upDateItem = dataSource.filter(item => item.key === key)[0];
+    const token = window.localStorage["token"];
     $.ajax({
         url:'/device/add',
         dataType:'json',

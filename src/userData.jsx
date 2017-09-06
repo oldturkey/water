@@ -5,7 +5,6 @@ import { Row, Col ,Table,Form, Select,Input,DatePicker, Button} from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RangePicker = DatePicker.RangePicker;
-const token = window.localStorage["token"];
 
  class userData extends React.Component {
   state ={
@@ -13,6 +12,7 @@ const token = window.localStorage["token"];
   }
   handleSearch = (e) => {
     e.preventDefault();
+    const token = window.localStorage["token"];
     this.props.form.validateFields((err, fieldsValue) => {
       if (err) {
         return;

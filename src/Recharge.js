@@ -81,7 +81,7 @@ class App extends React.Component {
     selectedRowKeys: [], 
   };
   lodaDataFromServer=()=>{
-    var token = window.localStorage["token"];
+    const token = window.localStorage["token"];
     $.ajax({
       url:'/recharge',
       dataType:'json',
@@ -98,10 +98,10 @@ class App extends React.Component {
   }
   componentDidMount(){
     this.lodaDataFromServer();
-    this.time=setInterval(this.lodaDataFromServer,120000);
+    this.timeRecharge=setInterval(this.lodaDataFromServer,120000);
   }
   componentWillUnmount(){
-    clearInterval(this.time);
+    clearInterval(this.timeRecharge);
   }
   getPhoneArrary = (key) => {            
     const dataAll = this.state.data;
@@ -115,6 +115,7 @@ class App extends React.Component {
     e.preventDefault();
     const rechargePerson = this.state.selectedRowKeys.map(this.getPhoneArrary);
     let admin = this.props.admin;
+    const token = window.localStorage["token"];
     this.props.form.validateFields(['money'],(err, fieldsValue) => {
       $.ajax({
         url:'/rechargePerson',
@@ -139,6 +140,7 @@ class App extends React.Component {
   }
   handleSubmitRecord = (e) => {
     e.preventDefault();
+    const token = window.localStorage["token"];
     this.props.form.validateFields(['admin'], (err, fieldsValue) => {
     $.ajax({
         url:'/rechargeInfo',

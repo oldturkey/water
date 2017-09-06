@@ -46,7 +46,6 @@ const data = [{
     status:2
   }];
   
-const token = window.localStorage["token"];
 class App extends React.Component {
   state = {
     filterDropdownVisible: false,
@@ -86,6 +85,7 @@ class App extends React.Component {
                 }
               });
               this.setState({ data: data});
+              const token = window.localStorage["token"];
     $.ajax({
         url:'http://112.124.6.31:80/watermachineplateform/feedback/updateStatus',
         dataType:'json',
@@ -116,6 +116,7 @@ class App extends React.Component {
   onDelete = (key) => {
     const data = [...this.state.data];
     this.setState({ data: data.filter(item => item.key !== key) });
+    const token = window.localStorage["token"];
     $.ajax({
         url:'http://112.124.6.31:80/watermachineplateform/feedback/delete',
         dataType:'json',
@@ -162,6 +163,7 @@ class App extends React.Component {
   }
   handleSearch = (e) => {
     e.preventDefault();
+    const token = window.localStorage["token"];
     this.props.form.validateFields((err, fieldsValue) => {
       if (err) {
         return;
