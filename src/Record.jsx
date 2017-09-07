@@ -6,11 +6,11 @@ export default class product extends React.Component {
 	lodaDataFromServer=()=>{
 		const token = window.localStorage["token"];
 		$.ajax({
-			url:'/record',
+			url:'http://192.168.31.158:90/record/',
 			dataType:'json',
-			headers: {
-			    'Authorization': token,
-			  },
+			// headers: {
+			//     'Authorization': token,
+			//   },
 			success:function(data){
 				this.setState({
 					data:data.record2,

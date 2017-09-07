@@ -8,11 +8,13 @@ const RangePicker = DatePicker.RangePicker;
 
  class userData extends React.Component {
   state ={
-    data:[],
+    consumeInfo:[],
+    rechargeInfo:[]
   }
   handleSearch = (e) => {
+    const _this = this;
     e.preventDefault();
-    const token = window.localStorage["token"];
+    // const token = window.localStorage["token"];
     this.props.form.validateFields((err, fieldsValue) => {
       if (err) {
         return;
@@ -26,18 +28,18 @@ const RangePicker = DatePicker.RangePicker;
          endTime = rangeTimeValue[1].format('YYYY-MM-DD HH:mm:ss');
       }
       $.ajax({
-        url:'/userinfo/search/phone',
+        url:'http://192.168.31.158:90/userinfo/search/phone',
         dataType:'json',
-        type:'POST',
-        headers: {
-          'Authorization': token,
-        },
-        data:{phone:fieldsValue['phone'],beginTime:beginTime?beginTime:'',endTime:endTime?endTime:''},
+        // headers: {
+        //   'Authorization': token,
+        // },
+        data:{phone:fieldsValue['userPhone'],beginTime:beginTime?beginTime:'',endTime:endTime?endTime:''},
         success:function(data){
           if(data.status===1){
-              this.setState({data:data});
-          }else{
-            alert('查询失败');
+              _this.setState({
+                consumeInfo:data.consumeInfo,
+                rechargeInfo:data.rechargeInfo
+              });
           }
         },
         error:function(xhr,status,err){
@@ -59,46 +61,45 @@ const RangePicker = DatePicker.RangePicker;
       labelCol: { span: 6 },
       wrapperCol: { span: 12 },
     };
-    const renderContent = (value, col, index) => {
-        value=value.toFixed(2);
-      return value;
-    }
     const columns = [{
         title: '用户姓名',
-        dataIndex: 'userName',
+        dataIndex: 'nickname',
       }, {
         title: '用户所在地',
-        dataIndex: 'userLocation',
+        dataIndex: 'city',
       }, {
         title: '手机号码',
-        dataIndex: 'phoneNumber',
-        render: renderContent,
-      }, {
+        dataIndex: 'phone',
+      },{
         title: '账户余额',
-        dataIndex: 'balance',
-      }, {
-        title: '充值总额',
-        dataIndex: 'recharge',
-      }, {
+        dataIndex: 'remain',
+      }, 
+      {
         title: '注册时间',
-        dataIndex: 'regTime',
+        dataIndex: 'gmtModified',
       }];
       const columnsOrder01 = [{
         title: '订单编号',
         dataIndex: 'orderNo',
       }, {
         title: '订单地址',
-        dataIndex: 'devcieLocation',
+        dataIndex: 'deviceLocation',
       }, {
+        title: '订单设备',
+        dataIndex: 'displayId',
+      },{
         title: '订单时间',
         dataIndex: 'gmtCreate',
       }, {
+        title: '取水量/L',
+        dataIndex: 'flow',
+      },{
         title: '消费金额',
         dataIndex: 'payment',
       }];
       const columnsOrder02 = [{
         title: '订单编号',
-        dataIndex: 'orderNo',
+        dataIndex: 'orderId',
       }, {
         title: '订单时间',
         dataIndex: 'gmtCreate',
@@ -142,14 +143,12 @@ const RangePicker = DatePicker.RangePicker;
           </Col>
         </Row>
       </Form>
-        <p className="dataTitle" >订单查询结果</p>
-        <Table columns={columns} dataSource={this.state.data.userInfo}  onChange={this.onChange} rowSelection={this.rowSelection} bordered style={{textAlign:'center',marginBottom:20}}/>
         <Row>
           <Col lg={14}>
-            <Table columns={columnsOrder01} title={ () => '充值记录'} dataSource={this.state.data.consumeInfo}  onChange={this.onChange} rowSelection={this.rowSelection} bordered style={{textAlign:'center',padding:'0 10px'}}/>
+            <Table columns={columnsOrder01} title={ () => '消费记录'} dataSource={this.state.consumeInfo}  onChange={this.onChange} rowSelection={this.rowSelection} bordered style={{textAlign:'center',padding:'0 10px'}}/>
           </Col>
           <Col lg={10}>
-            <Table columns={columnsOrder02} title={ () => '消费记录'} dataSource={this.state.data.rechargeInfo}  onChange={this.onChange} rowSelection={this.rowSelection} bordered style={{textAlign:'center'}}/>
+            <Table columns={columnsOrder02} title={ () => '充值记录'} dataSource={this.state.rechargeInfo}  onChange={this.onChange} rowSelection={this.rowSelection} bordered style={{textAlign:'center'}}/>
           </Col>
         </Row>
       </div>  
@@ -159,3 +158,6 @@ const RangePicker = DatePicker.RangePicker;
 
 const WrappedApp = Form.create()(userData);
 export default WrappedApp;
+
+// <p className="dataTitle" >订单查询结果</p>
+        // <Table columns={columns} dataSource={this.state.userInfo}  onChange={this.onChange} rowSelection={this.rowSelection} bordered style={{textAlign:'center',marginBottom:20}}/>

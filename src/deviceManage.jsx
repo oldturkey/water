@@ -60,14 +60,15 @@ export default class EditableTable extends React.Component {
   lodaDataFromServer=()=>{
     const token = window.localStorage["token"];
     $.ajax({
-      url:'/device/get',
+      url:'http://192.168.31.158:90/device/get',
       dataType:'json',
-      headers: {
-          'Authorization': token,
-        },
+      // headers: {
+      //     'Authorization': token,
+      //   },
       success:function(data){
-        this.setState({dataSource:data.dataSource,
-          count:data.count
+        this.setState({
+          dataSource:data.terminalArray,
+          count:data.terminalArray.length+1
         });
       }.bind(this),
       error:function(xhr,status,err){
@@ -75,6 +76,7 @@ export default class EditableTable extends React.Component {
       }.bind(this)
     });
   }
+
   componentDidMount(){
     this.lodaDataFromServer();
     this.timeDeviceManage=setInterval(this.lodaDataFromServer,120000);
@@ -98,6 +100,12 @@ export default class EditableTable extends React.Component {
       title: '设备编号',
       dataIndex: 'displayId',
       width: '12%',
+      render: (text, record) => (
+        <EditableCell
+          value={text}
+          onChange={this.onCellChange(record.key, 'displayId')}
+        />
+      ),
     },{
       title: 'SIM卡号',
       dataIndex: 'simId',
@@ -159,26 +167,8 @@ export default class EditableTable extends React.Component {
     }];
 
     this.state = {
-      dataSource: [{
-        key: '0',
-        imei: '001',
-        simId: '1',
-        location: '西湖',
-        state:10
-      }, {
-        key: '1',
-        imei: '002',
-        simId: '2',
-        location: '下沙',
-        state:11
-      },{
-        key: '2',
-        imei: '003',
-        simId: '3',
-        location: '西溪',
-        state:12
-      }],
-      count: 3,
+      dataSource: [],
+      count: 0,
     };
   }
   onCellChange = (key, dataIndex) => {
@@ -191,24 +181,21 @@ export default class EditableTable extends React.Component {
       }
     };
   }
-  onDelete = (key) => {
+  onDelete = (key) => {   
     const dataSource = [...this.state.dataSource];
+    const _this = this;
     const deleteItem = dataSource.filter(item => item.key === key)[0];
     const token = window.localStorage["token"];
     $.ajax({
-        url:'/device/delete',
+        url:'http://192.168.31.158:90/device/delete',
         dataType:'json',
         type:'POST',
-        headers: {
-          'Authorization': token,
-        },
-        data:{user:deleteItem.displayId},
+        // headers: {
+        //   'Authorization': token,
+        // },
+        data:{displayId:deleteItem.displayId},
         success:function(data){
-          if(data===200){
-              this.setState({ dataSource: dataSource.filter(item => item.key !== key) });
-          }else{
-            alert('删除失败');
-          }
+              _this.setState({ dataSource: dataSource.filter(item => item.key !== key) });
         },
         error:function(xhr,status,err){
           console.error(this.props.url,status,err.toString());
@@ -220,18 +207,18 @@ export default class EditableTable extends React.Component {
     const upDateItem = dataSource.filter(item => item.key === key)[0];
     const token = window.localStorage["token"];
     $.ajax({
-        url:'/device/add',
+        url:'http://192.168.31.158:90/device/add',
         dataType:'json',
         type:'POST',
-        headers: {
-          'Authorization': token,
-        },
+        // headers: {
+        //   'Authorization': token,
+        // },
         data:{imei:upDateItem.imei,address:upDateItem.location,sim:upDateItem.simId},
         success:function(data){
-          if(data===600){
-              
+          if(data.status==200){
+            alert("添加成功");
           }else{
-            alert('更新失败');
+            alert("添加失败");
           }
         },
         error:function(xhr,status,err){

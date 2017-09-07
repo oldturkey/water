@@ -3,98 +3,50 @@ import $ from 'jquery';
 import { Form,  Input, Button,InputNumber,Table, Icon ,Row,Col } from 'antd';
 const FormItem = Form.Item;
 
-const data = [{
-    key: '1',
-    phone: '1505335789',
-    name: '小明',
-    address: '杭州',
-    balance:15,
-    cost:65
-  }, {
-    key: '2',
-    phone: '1866799957',
-    name: '小黄',
-    address: '杭州',
-    balance:15,
-    cost:45
-  }, {
-    key: '3',
-    phone: '15805565587',
-    name: '小兰',
-    address: '南京',
-    balance:15,
-    cost:125
-  }, {
-    key: '4',
-    phone: '1335655878',
-    name: '小吕',
-    address: '南京',
-    balance:15,
-    cost:15
-  }, {
-    key: '5',
-    phone: '1866799957',
-    name: '小黄',
-    address: '杭州',
-    balance:15,
-    cost:45
-  }];
-  const data01 = [{
-    key: '1',
-    phone: '1505335789',
-    name: '管理员小明',
-    time:'2017/08/05',
-    recharge:'25',
-  }, {
-    key: '2',
-    phone: '1866799957',
-    name: '管理员小明',
-    time:'2017/08/06',
-    recharge:'25'
-  }, {
-    key: '3',
-    phone: '15805565587',
-    name: '管理员小明',
-    time:'2017/08/07',
-    recharge:'25'
-  }, {
-    key: '4',
-    phone: '1335655878',
-    name: '管理员小明',
-    time:'2017/08/08',
-    recharge:'25'
-  }, {
-    key: '5',
-    phone: '1866799957',
-    name: '管理员小明',
-    time:'2017/08/15',
-    recharge:'25'
-  }];
-  const token = window.localStorage["token"];
+const token = window.localStorage["token"];
 class App extends React.Component {
   state = {
     filterDropdownVisible: false,
-    data,
-    data01,
-    searchText: '',
+    filterDropdownVisible01: false,
+    data:[],
+    data01:[],
     filtered: false,
+    searchText: '',
+    searchText01: '',
     selectedRowKeys: [], 
   };
   lodaDataFromServer=()=>{
+    const _this = this;
     const token = window.localStorage["token"];
     $.ajax({
-      url:'/recharge',
+      url:'http://192.168.31.158:90/recharge/getAll',
       dataType:'json',
-      headers: {
-          'Authorization': token,
-        },
+      // headers: {
+      //     'Authorization': token,
+      //   },
       success:function(data){
-        this.setState({data:data});
+        this.setState({data:data.userInfoPOS});
+        // console.log(data.userInfoPOS)
       }.bind(this),
       error:function(xhr,status,err){
         console.error(this.props.url,status,err.toString());
       }.bind(this)
     });
+    $.ajax({
+        url:'http://192.168.31.158:90/recharge/adminRecord',
+        dataType:'json',
+        // headers: {
+        //   'Authorization': token,
+        // },
+        success:function(data){
+
+              _this.setState({data01:data.adminRecordInfo});
+
+        },
+        error:function(xhr,status,err){
+          console.error(this.props.url,status,err.toString());
+        }.bind(this)
+      });
   }
   componentDidMount(){
     this.lodaDataFromServer();
@@ -113,21 +65,23 @@ class App extends React.Component {
   }
   handleSubmit = (e) => {
     e.preventDefault();
+    const _this = this;
     const rechargePerson = this.state.selectedRowKeys.map(this.getPhoneArrary);
+   console.log(rechargePerson);
     let admin = this.props.admin;
     const token = window.localStorage["token"];
     this.props.form.validateFields(['money'],(err, fieldsValue) => {
       $.ajax({
-        url:'/rechargePerson',
+        url:'http://192.168.31.158:90/rechargePerson',
         dataType:'json',
         type:'POST',
-        headers: {
-          'Authorization': token,
-        },
-        data:{adminName:admin,user:rechargePerson,money:fieldsValue['money']},
+        // headers: {
+        //   'Authorization': token,
+        // },
+        data:{adminName:admin,phone:rechargePerson,money:fieldsValue['money']},
         success:function(data){
-          if(data===1){
-              alert('充值成功');
+          if(data.rechargeStatus===1){
+              _this.lodaDataFromServer();
           }else{
             alert('充值失败');
           }
@@ -138,31 +92,7 @@ class App extends React.Component {
       });
     });
   }
-  handleSubmitRecord = (e) => {
-    e.preventDefault();
-    const token = window.localStorage["token"];
-    this.props.form.validateFields(['admin'], (err, fieldsValue) => {
-    $.ajax({
-        url:'/rechargeInfo',
-        dataType:'json',
-        type:'POST',
-        headers: {
-          'Authorization': token,
-        },
-        data:{user:fieldsValue['admin']},
-        success:function(data){
-          if(data===1){
-              this.setState({data:data01});
-          }else{
-            alert('查询失败');
-          }
-        },
-        error:function(xhr,status,err){
-          console.error(this.props.url,status,err.toString());
-        }.bind(this)
-      });
-    });
-  }
+  
   onInputChange = (e) => {
     this.setState({ searchText: e.target.value });
   }
@@ -170,13 +100,37 @@ class App extends React.Component {
     console.log('selectedRowKeys changed: ', selectedRowKeys);
     this.setState({ selectedRowKeys });
   }
+  onSearch01 = () => {
+    const { searchText01 } = this.state;
+    const reg = new RegExp(searchText01, 'gi');
+    this.setState({
+      filterDropdownVisible: false,
+      filtered: !!searchText01,
+      data: this.state.data.map((record) => {
+        const match = record.adminPhone.match(reg);
+        if (!match) {
+          return null;
+        }
+        return {
+          ...record,
+          adminPhone: (
+            <span>
+              {record.adminPhone.split(reg).map((text, i) => (
+                i > 0 ? [<span className="highlight">{match[0]}</span>, text] : text
+              ))}
+            </span>
+          ),
+        };
+      }).filter(record => !!record),
+    });
+  }
   onSearch = () => {
     const { searchText } = this.state;
     const reg = new RegExp(searchText, 'gi');
     this.setState({
       filterDropdownVisible: false,
       filtered: !!searchText,
-      data: data.map((record) => {
+      data: this.state.data.map((record) => {
         const match = record.phone.match(reg);
         if (!match) {
           return null;
@@ -205,7 +159,7 @@ class App extends React.Component {
         text: '选择所有用户',
         onSelect: () => {
           this.setState({
-            selectedRowKeys: data.map((data,i) => (data.key)),  
+            selectedRowKeys: this.state.data.map((data,i) => (data.key)),  
           });
         },
       },{
@@ -221,8 +175,27 @@ class App extends React.Component {
     }; 
     const columns = [{
       title: '姓名',
-      dataIndex: 'name',
+      dataIndex: 'nickName',
       key: 'name',
+    },{
+      title: '用户性别',
+      dataIndex: 'gender',
+      key: 'sex',
+      render: (text) => {
+        if (text === "male") {
+          return text="男";
+        }else if (text === "female") {
+          return text="女";
+        }
+      },
+      filters: [{
+        text: '男',
+        value: "male",
+      },{
+        text: '女',
+        value: "female",
+      },],
+      onFilter: (value, record) => record.gender === value,
     }, {
       title: '手机号码',
       dataIndex: 'phone',
@@ -248,8 +221,8 @@ class App extends React.Component {
       },
     }, {
       title: '用户位置',
-      dataIndex: 'address',
-      key: 'address',
+      dataIndex: 'city',
+      key: 'city',
       filters: [{
         text: '杭州',
         value: '杭州',
@@ -257,55 +230,58 @@ class App extends React.Component {
         text: '南京',
         value: '南京',
       },],
-      onFilter: (value, record) => record.address.indexOf(value) === 0,
+      onFilter: (value, record) => record.city.indexOf(value) === 0,
     }, {
       title: '消费总额',
-      dataIndex: 'cost',
+      dataIndex: 'sumConsume',
       key: 'cost',
       sorter: (a, b) => a.cost - b.cost,
     },{
       title: '账户余额',
-      dataIndex: 'balance',
+      dataIndex: 'remain',
       key: 'balance',
     }];
+
+
     const columnsHistory = [{
       title: '管理员姓名',
-      dataIndex: 'name',
-      key: 'name',
+      dataIndex: 'adminName',
+      key: 'adminName',
     }, {
-      title: '用户手机号码',
-      dataIndex: 'phone',
-      key: 'phone',
+      title: '充值对象',
+      dataIndex: 'adminPhone',
+      key: 'adminPhone', 
       filterDropdown: (
         <div className="custom-filter-dropdown">
           <Input
             ref={ele => this.searchInput = ele}
             placeholder="查询号码"
-            value={this.state.searchText}
+            value={this.state.searchText01}
             onChange={this.onInputChange}
-            onPressEnter={this.onSearch}
+            onPressEnter={this.onSearch01}
           />
-          <Button type="primary" onClick={this.onSearch}>Search</Button>
+          <Button type="primary" onClick={this.onSearch01}>Search</Button>
         </div>
       ),
       filterIcon: <Icon type="search" style={{ color: this.state.filtered ? '#108ee9' : '#aaa' }} />,
-      filterDropdownVisible: this.state.filterDropdownVisible,
+      filterDropdownVisible: this.state.filterDropdownVisible01,
       onFilterDropdownVisibleChange: (visible) => {
         this.setState({
-          filterDropdownVisible: visible,
+          filterDropdownVisible01: visible,
         }, () => this.searchInput.focus());
       },
     }, {
       title: '充值金额',
-      dataIndex: 'recharge',
-      key: 'recharge',
-      sorter: (a, b) => a.recharge - b.recharge,
+      dataIndex: 'money',
+      key: 'money',
+      sorter: (a, b) => a.money - b.money,
     },{
       title: '充值时间',
-      dataIndex: 'time',
-      key: 'time',
-      sorter: (a, b) => Date.parse(a.time) - Date.parse(b.time),
+      dataIndex: 'gmtCreate',
+      key: 'gmtCreate',
+      sorter: (a, b) => Date.parse(a.gmtCreate) - Date.parse(b.gmtCreate),
     }];
+
     return (
     <div >
       <div style={{marginTop:'20px',borderBottom:'2px solid #eee'}}>
@@ -337,30 +313,6 @@ class App extends React.Component {
         </Row>
       </div>
       <p className="dataTitle" style={{marginTop:'20px'}}>发放记录</p>
-      <Row style={{padding:'0 0 20px'}}>
-          <Col span={24} offset={12}>
-            <Form onSubmit={this.handleSubmitRecord} layout='inline'>
-              <FormItem
-                label="请输入管理员用户名"
-                labelCol={{ lg: 12 }}
-                wrapperCol={{ lg: 12 }}
-              >
-                {getFieldDecorator('admin', {
-                  rules: [{ required: true, message: '请输入管理员账号!' }],
-                })(
-                  <Input/>
-                )}
-              </FormItem>
-              <FormItem
-                wrapperCol={{ lg: 6, offset: 6 }}
-              >
-                <Button type="primary" htmlType="submit">
-                  查询
-                </Button>
-              </FormItem>
-            </Form>
-         </Col>
-        </Row>
       <Table columns={columnsHistory}  dataSource={this.state.data01} />
     </div>
     );

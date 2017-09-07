@@ -4,52 +4,52 @@ import { Form,  Input, Button,Table, Icon ,Row,Col,Popconfirm,Modal,DatePicker }
 const FormItem = Form.Item;
 const RangePicker = DatePicker.RangePicker;
 
-const data = [{
-    key: '1',
-    phone: '1505335789',
-    nickname: '小明',
-    email: '0404@qq.com',
-    feedback:15,
-    gmtCreate:'2017/09/04',
-    status:2
-  }, {
-    key: '2',
-    phone: '1866799957',
-    nickname: '小黄',
-    email: '0404@qq.com',
-    feedback:15,
-    gmtCreate:'2017/09/04',
-    status:2
-  }, {
-    key: '3',
-    phone: '15805565587',
-    nickname: '小兰',
-    email: '0404@qq.com',
-    feedback:15,
-    gmtCreate:'2017/09/04',
-    status:2
-  }, {
-    key: '4',
-    phone: '1335655878',
-    nickname: '小吕',
-    email: '0404@qq.com',
-    feedback:15,
-    gmtCreate:'2017/09/04',
-    status:2
-  }, {
-    key: '5',
-    phone: '1866799957',
-    nickname: '小黄',
-    email: '0404@qq.com',
-    feedback:15,
-    gmtCreate:'2017/09/04',
-    status:2
-  }];
-  
+// const data = [{
+//     key: '1',
+//     phone: '1505335789',
+//     nickname: '小明',
+//     email: '0404@qq.com',
+//     feedback:15,
+//     gmtCreate:'2017/09/04',
+//     status:2
+//   }, {
+//     key: '2',
+//     phone: '1866799957',
+//     nickname: '小黄',
+//     email: '0404@qq.com',
+//     feedback:15,
+//     gmtCreate:'2017/09/04',
+//     status:2
+//   }, {
+//     key: '3',
+//     phone: '15805565587',
+//     nickname: '小兰',
+//     email: '0404@qq.com',
+//     feedback:15,
+//     gmtCreate:'2017/09/04',
+//     status:2
+//   }, {
+//     key: '4',
+//     phone: '1335655878',
+//     nickname: '小吕',
+//     email: '0404@qq.com',
+//     feedback:15,
+//     gmtCreate:'2017/09/04',
+//     status:2
+//   }, {
+//     key: '5',
+//     phone: '1866799957',
+//     nickname: '小黄',
+//     email: '0404@qq.com',
+//     feedback:15,
+//     gmtCreate:'2017/09/04',
+//     status:2
+//   }];
+
 class App extends React.Component {
   state = {
     filterDropdownVisible: false,
-    data,
+    data:[],
     searchText: '',
     filtered: false,
     selectedRowKeys: [], 
@@ -79,31 +79,27 @@ class App extends React.Component {
   }
   onUpDate =(key) => {
     let data = [...this.state.data];
-               data.forEach(function(item){
-                if(item.key===key){
-                  item.status=1
-                }
-              });
-              this.setState({ data: data});
-              const token = window.localStorage["token"];
+    const token = window.localStorage["token"];
+    const _this = this;
     $.ajax({
-        url:'http://112.124.6.31:80/watermachineplateform/feedback/updateStatus',
+        url:'http://192.168.31.158:90/feedback/updateStatus',
         dataType:'json',
         type:'POST',
-        headers: {
-          'Authorization': token,
-        },
+        // headers: {
+        //   'Authorization': token,
+        // },
         data:{id:key},
         success:function(data){
-          if(data===1){
+          if(data.updateResult===1){
               alert('更新成功');
-              let data = [...this.state.data];
+              let data = [..._this.state.data];
                data.forEach(function(item){
                 if(item.key===key){
-                  item.status=1
+                  item.status=66
+                  item.gmtSolve = new Date().Format("yyyy-MM-dd hh:mm:ss.0");
                 }
               });
-              this.setState({ data: data});
+              _this.setState({ data: data});
           }else{
             alert('更新失败');
           }
@@ -118,15 +114,16 @@ class App extends React.Component {
     this.setState({ data: data.filter(item => item.key !== key) });
     const token = window.localStorage["token"];
     $.ajax({
-        url:'http://112.124.6.31:80/watermachineplateform/feedback/delete',
+        url:'http://192.168.31.158:90/feedback/delete/id',
         dataType:'json',
         type:'POST',
-        headers: {
-          'Authorization': token,
-        },
+        // headers: {
+        //   'Authorization': token,
+        // },
+        // 
         data:{id:key},
         success:function(data){
-          if(data===1){
+          if(data.deleteResult===1){
               alert('删除成功');
           }else{
             alert('删除失败');
@@ -143,7 +140,7 @@ class App extends React.Component {
     this.setState({
       filterDropdownVisible: false,
       filtered: !!searchText,
-      data: data.map((record) => {
+      data: this.state.data.map((record) => {
         const match = record.phone.match(reg);
         if (!match) {
           return null;
@@ -176,17 +173,17 @@ class App extends React.Component {
          beginTime = rangeTimeValue[0].format('YYYY-MM-DD HH:mm:ss');
          endTime = rangeTimeValue[1].format('YYYY-MM-DD HH:mm:ss');
       }
+      const _this = this;
       $.ajax({
-        url:'http://112.124.6.31:80/watermachineplateform/feedback/get',
+        url:'http://192.168.31.158:90/feedback/get',
         dataType:'json',
-        type:'POST',
-        headers: {
-          'Authorization': token,
-        },
-        data:{userName:fieldsValue['phone']?fieldsValue['phone']:'',beginTime:beginTime?beginTime:'',endTime:endTime?endTime:''},
+        // headers: {
+        //   'Authorization': token,
+        // },
+        data:{phone:fieldsValue['phone']?fieldsValue['phone']:'',beginTime:beginTime?beginTime:'',endTime:endTime?endTime:''},
         success:function(data){
-          if(data===1){
-              alert('查询成功');
+          if(data.status===1){
+              _this.setState({data:data.feedbackContent});
           }else{
             alert('查询失败');
           }
@@ -215,7 +212,7 @@ class App extends React.Component {
         text: '选择所有',
         onSelect: () => {
           this.setState({
-            selectedRowKeys: data.map((data,i) => (data.key)),  
+            selectedRowKeys: this.state.data.map((data,i) => (data.key)),  
           });
         },
       },{
@@ -273,16 +270,16 @@ class App extends React.Component {
         key: 'gmtCreate',
       },{
         title: '结束时间',
-        dataIndex: 'endTime',
-        key: 'endTime',
+        dataIndex: 'gmtSolve',
+        key: 'gmtSolve',
       },{
         title: '反馈状态',
         dataIndex: 'status',
         key: 'status',
         render: (text) => {
-        if (text ===1) {
+        if (text === 66) {
           return <div><span style={{color:"#87D068",fontSize: 15,paddingRight: '10px'}}>●</span>已解决</div>;
-        }else if (text ===2) {
+        }else if (text === 23) {
           return <div><span style={{color:"#CCC",fontSize: 15,paddingRight: '10px'}}>●</span>未解决</div>;
         } 
       },
