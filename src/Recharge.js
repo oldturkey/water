@@ -1,47 +1,54 @@
 import React from 'react';
 import $ from 'jquery';
-import { Form,  Input, Button,InputNumber,Table, Icon ,Row,Col } from 'antd';
+import { Form,  Input, Button,InputNumber,Table, Icon ,Row,Col,Tooltip } from 'antd';
 const FormItem = Form.Item;
 
 const token = window.localStorage["token"];
+let dataX = [];
+let dataY = [];
 class App extends React.Component {
   state = {
-    filterDropdownVisible: false,
-    filterDropdownVisible01: false,
     data:[],
     data01:[],
+    filterDropdownVisible: false,
+    filterDropdownVisible01: false,
     filtered: false,
-    searchText: '',
+    filtered01: false,
+    searchText: '', 
     searchText01: '',
     selectedRowKeys: [], 
+    loading: false,
   };
   lodaDataFromServer=()=>{
+    const token = window.localStorage["token"]; 
     const _this = this;
-    const token = window.localStorage["token"];
+    this.setState({ loading: true });
     $.ajax({
-      url:'http://192.168.31.158:90/recharge/getAll',
+      url:'/recharge/getAll',
       dataType:'json',
-      // headers: {
-      //     'Authorization': token,
-      //   },
+      headers: {
+          'Authorization': token,
+        },
       success:function(data){
-        this.setState({data:data.userInfoPOS});
-        // console.log(data.userInfoPOS)
+        dataX = data.userInfoPOS;
+        this.setState({
+          data:data.userInfoPOS,
+          loading: false,
+        });
       }.bind(this),
       error:function(xhr,status,err){
         console.error(this.props.url,status,err.toString());
       }.bind(this)
     });
     $.ajax({
-        url:'http://192.168.31.158:90/recharge/adminRecord',
+        url:'/recharge/adminRecord',
         dataType:'json',
-        // headers: {
-        //   'Authorization': token,
-        // },
+        headers: {
+          'Authorization': token,
+        },
         success:function(data){
-
-              _this.setState({data01:data.adminRecordInfo});
-
+            dataY = data.adminRecordInfo;
+            _this.setState({data01:data.adminRecordInfo});
         },
         error:function(xhr,status,err){
           console.error(this.props.url,status,err.toString());
@@ -69,15 +76,14 @@ class App extends React.Component {
     const rechargePerson = this.state.selectedRowKeys.map(this.getPhoneArrary);
    console.log(rechargePerson);
     let admin = this.props.admin;
-    const token = window.localStorage["token"];
     this.props.form.validateFields(['money'],(err, fieldsValue) => {
       $.ajax({
-        url:'http://192.168.31.158:90/rechargePerson',
+        url:'/rechargePerson',
         dataType:'json',
         type:'POST',
-        // headers: {
-        //   'Authorization': token,
-        // },
+        headers: {
+          'Authorization': token,
+        },
         data:{adminName:admin,phone:rechargePerson,money:fieldsValue['money']},
         success:function(data){
           if(data.rechargeStatus===1){
@@ -96,33 +102,12 @@ class App extends React.Component {
   onInputChange = (e) => {
     this.setState({ searchText: e.target.value });
   }
+  onInputChange01 = (e) => {
+    this.setState({ searchText01: e.target.value });
+  }
   onSelectChange = (selectedRowKeys) => {
     console.log('selectedRowKeys changed: ', selectedRowKeys);
     this.setState({ selectedRowKeys });
-  }
-  onSearch01 = () => {
-    const { searchText01 } = this.state;
-    const reg = new RegExp(searchText01, 'gi');
-    this.setState({
-      filterDropdownVisible: false,
-      filtered: !!searchText01,
-      data: this.state.data.map((record) => {
-        const match = record.adminPhone.match(reg);
-        if (!match) {
-          return null;
-        }
-        return {
-          ...record,
-          adminPhone: (
-            <span>
-              {record.adminPhone.split(reg).map((text, i) => (
-                i > 0 ? [<span className="highlight">{match[0]}</span>, text] : text
-              ))}
-            </span>
-          ),
-        };
-      }).filter(record => !!record),
-    });
   }
   onSearch = () => {
     const { searchText } = this.state;
@@ -130,7 +115,7 @@ class App extends React.Component {
     this.setState({
       filterDropdownVisible: false,
       filtered: !!searchText,
-      data: this.state.data.map((record) => {
+      data: dataX.map((record) => {
         const match = record.phone.match(reg);
         if (!match) {
           return null;
@@ -144,6 +129,23 @@ class App extends React.Component {
               ))}
             </span>
           ),
+        };
+      }).filter(record => !!record),
+    });
+  }
+  onSearch01 = () => {
+    const { searchText01 } = this.state;
+    const reg = new RegExp(searchText01, 'gi');
+    this.setState({
+      filterDropdownVisible01: false,
+      filtered01: !!searchText01,
+      data01: dataY.map((record) => {
+        const match = record.adminPhone.match(reg);
+        if (!match) {
+          return null;
+        }
+        return {
+          ...record,
         };
       }).filter(record => !!record),
     });
@@ -251,19 +253,33 @@ class App extends React.Component {
       title: '充值对象',
       dataIndex: 'adminPhone',
       key: 'adminPhone', 
+      render: (text) => {
+        if (text.length <= 11) {
+          return text;
+        }else if (text.length > 11) {
+          return (
+            <span>
+              {text.slice(0,11)}
+              <Tooltip title={text.slice(12,text.length-2)}>
+                <span>...</span>
+              </Tooltip>
+            </span>
+            )
+        }
+      },
       filterDropdown: (
         <div className="custom-filter-dropdown">
           <Input
-            ref={ele => this.searchInput = ele}
+            ref={elem => this.searchInput = elem}
             placeholder="查询号码"
             value={this.state.searchText01}
-            onChange={this.onInputChange}
+            onChange={this.onInputChange01}
             onPressEnter={this.onSearch01}
           />
           <Button type="primary" onClick={this.onSearch01}>Search</Button>
         </div>
       ),
-      filterIcon: <Icon type="search" style={{ color: this.state.filtered ? '#108ee9' : '#aaa' }} />,
+      filterIcon: <Icon type="search" style={{ color: this.state.filtered01 ? '#108ee9' : '#aaa' }} />,
       filterDropdownVisible: this.state.filterDropdownVisible01,
       onFilterDropdownVisibleChange: (visible) => {
         this.setState({
@@ -286,7 +302,7 @@ class App extends React.Component {
     <div >
       <div style={{marginTop:'20px',borderBottom:'2px solid #eee'}}>
         <p className="dataTitle">发放鼓励金</p>
-        <Table columns={columns} rowSelection={rowSelection} dataSource={this.state.data} />
+        <Table columns={columns} rowSelection={rowSelection} dataSource={this.state.data} loading={this.state.loading}/>
         <Row style={{padding:'20px 0'}}>
           <Col span={20} offset={12}>
             <Form onSubmit={this.handleSubmit} layout='inline'>

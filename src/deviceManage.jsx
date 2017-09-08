@@ -53,18 +53,17 @@ class EditableCell extends React.Component {
       </div>
     );        
   }
-}
-     
+}   
 export default class EditableTable extends React.Component {
 
   lodaDataFromServer=()=>{
-    const token = window.localStorage["token"];
+    const token = window.localStorage["token"]; 
     $.ajax({
-      url:'http://192.168.31.158:90/device/get',
+      url:'/device/get',
       dataType:'json',
-      // headers: {
-      //     'Authorization': token,
-      //   },
+      headers: {
+          'Authorization': token,
+        },
       success:function(data){
         this.setState({
           dataSource:data.terminalArray,
@@ -153,16 +152,26 @@ export default class EditableTable extends React.Component {
       title: '操作',
       dataIndex: 'operation',
       render: (text, record) => {
-        return (
-        <span>   
-            <Popconfirm title="确定要删除该设备?" onConfirm={() => this.onDelete(record.key)}>
-              <a href="">删除 </a>
-            </Popconfirm><span>&nbsp;&nbsp;</span>
-            <Popconfirm title="确定要更新该设备信息?" onConfirm={() => this.onUpDate(record.key)}>
-              <a href="">上传更新设备状态</a>
-            </Popconfirm>
-          </span> 
-        );
+        if(text === 1){
+          return (
+            <span>   
+                <Popconfirm title="确定要删除该设备?" onConfirm={() => this.onDelete(record.key)}>
+                  <a href="">删除 </a>
+                </Popconfirm>
+              </span> 
+          );
+        }else{
+          return (
+            <span>   
+                <Popconfirm title="确定要删除该设备?" onConfirm={() => this.onDelete(record.key)}>
+                  <a href="">删除 </a>
+                </Popconfirm><span>&nbsp;&nbsp;</span>
+                <Popconfirm title="确定要更新该设备信息?" onConfirm={() => this.onUpDate(record.key)}>
+                  <a href="">上传更新设备状态</a>
+                </Popconfirm>
+              </span> 
+            )
+        }
       },
     }];
 
@@ -182,17 +191,17 @@ export default class EditableTable extends React.Component {
     };
   }
   onDelete = (key) => {   
+    const token = window.localStorage["token"]; 
     const dataSource = [...this.state.dataSource];
     const _this = this;
     const deleteItem = dataSource.filter(item => item.key === key)[0];
-    const token = window.localStorage["token"];
     $.ajax({
-        url:'http://192.168.31.158:90/device/delete',
+        url:'/device/delete',
         dataType:'json',
         type:'POST',
-        // headers: {
-        //   'Authorization': token,
-        // },
+        headers: {
+          'Authorization': token,
+        },
         data:{displayId:deleteItem.displayId},
         success:function(data){
               _this.setState({ dataSource: dataSource.filter(item => item.key !== key) });
@@ -203,20 +212,22 @@ export default class EditableTable extends React.Component {
       });
   }
   onUpDate = (key) => {
+    const _this = this;
+    const token = window.localStorage["token"]; 
     const dataSource = [...this.state.dataSource];
     const upDateItem = dataSource.filter(item => item.key === key)[0];
-    const token = window.localStorage["token"];
     $.ajax({
-        url:'http://192.168.31.158:90/device/add',
+        url:'/device/add',
         dataType:'json',
         type:'POST',
-        // headers: {
-        //   'Authorization': token,
-        // },
+        headers: {
+          'Authorization': token,
+        },
         data:{imei:upDateItem.imei,address:upDateItem.location,sim:upDateItem.simId},
         success:function(data){
-          if(data.status==200){
+          if(data.status===200){
             alert("添加成功");
+            _this.lodaDataFromServer();
           }else{
             alert("添加失败");
           }

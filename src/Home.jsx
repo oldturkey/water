@@ -1,19 +1,27 @@
 import React from 'react';
 import $ from 'jquery';
-import { Row, Col ,Table} from 'antd';
-
+import { Row, Col ,Table,Icon} from 'antd';
+import './home.css';
 export default class product extends React.Component {
+	state ={
+		loading: false,
+		data:[],
+		mainpageHead:{"terminalNumber": 0,"userNumber":0,"rechargeNumber":0,"userNumberYesterday":0,"rechargeNumberYesterday":0,"flowNumberYesterday":0,"consumeNumberYesterday": 0}
+	}
 	lodaDataFromServer=()=>{
 		const token = window.localStorage["token"];
+		this.setState({ loading: true });
 		$.ajax({
-			url:'/home',
+			url:'/mainpage',
 			dataType:'json',
 			headers: {
 			    'Authorization': token,
 			  },
 			success:function(data){
-				this.setState({data:data.record2,
-					record1:data.record1
+				this.setState({
+					data:data.offlineTerminal,
+					mainpageHead:data.head,
+					loading: false
 				});
 			}.bind(this),
 			error:function(xhr,status,err){
@@ -21,10 +29,7 @@ export default class product extends React.Component {
 			}.bind(this)
 		});
 	}
-	state ={
-		data:[],
-		record1:{"todayflow": 0,"averflow":0,"totalflow":0,"hisaverflow":0}
-	}
+
 	componentDidMount(){
 		this.lodaDataFromServer();
 		this.time=setInterval(this.lodaDataFromServer,120000);
@@ -36,12 +41,7 @@ export default class product extends React.Component {
 		console.log('params', pagination, filters, sorter);
 
 	}
-
 	render(){
-		const renderContent = (value, col, index) => {
-				value=value.toFixed(2);
-			return value;
-		}
 		const columns = [{
 			  title: '设备编号',
 			  dataIndex: 'displayId',
@@ -49,15 +49,18 @@ export default class product extends React.Component {
 			  title: '投放位置',
 			  dataIndex: 'location',
 			}, {
+			  title: 'SIM卡号',
+			  dataIndex: 'simId',
+			}, {
+			  title: 'IMEI号',
+			  dataIndex: 'imei',
+			}, {
 			  title: '最后连接时刻',
-			  dataIndex: 'flow',
-			  render: renderContent,
-			  sorter: (a, b) => a.flow - b.flow,
+			  dataIndex: 'lastConnectTime',
+			  sorter: (a, b) => Date.parse(a.lastConnectTime) - Date.parse(b.lastConnectTime),
 			}, {
 			  title: '掉线时长',
-			  dataIndex: 'hisflow',
-			  render: renderContent,
-			  sorter: (a, b) => a.hisflow - b.hisflow,
+			  dataIndex: 'offlineTime',
 			}];
 			const data = this.state.data;
 
@@ -69,15 +72,15 @@ export default class product extends React.Component {
 						<Row>
 							<Col lg={8} className="Box">
 								<p className="Title">设备总数(个)</p>
-								<p className="Data">{this.state.record1.todayflow.toFixed(2)} </p>
+								<p className="Data">{this.state.mainpageHead.terminalNumber.toFixed(2)} </p>
 							</Col>
 							<Col lg={8} className="Box">
 									<p className="Title">活跃用户(人)</p>
-								    <p className="Data">{this.state.record1.averflow.toFixed(2)} </p>
+								    <p className="Data">{this.state.mainpageHead.userNumber.toFixed(2)} </p>
 							</Col>
 							<Col lg={8} className="Box">
 								<p className="Title">充值总额(元)</p>
-								<p className="Data">{this.state.record1.totalflow.toFixed(1)} </p>
+								<p className="Data">{this.state.mainpageHead.rechargeNumber.toFixed(1)} </p>
 							</Col>
 						</Row>
 					</Col>
@@ -86,27 +89,26 @@ export default class product extends React.Component {
 						<Row>
 							<Col lg={6} className="Box">
 								<p className="Title">用户数量(个)</p>
-								<p className="Data">{this.state.record1.todayflow.toFixed(2)} </p>
+								<p className="Data">{this.state.mainpageHead.userNumberYesterday.toFixed(2)} </p>
 							</Col>
 							<Col lg={6} className="Box">
 									<p className="Title">充值金额(人)</p>
-								    <p className="Data">{this.state.record1.averflow.toFixed(2)} </p>
+								    <p className="Data">{this.state.mainpageHead.rechargeNumberYesterday.toFixed(2)} </p>
 							</Col>
 							<Col lg={6} className="Box">
-								<p className="Title">流量耗费(元)</p>
-								<p className="Data">{this.state.record1.totalflow.toFixed(1)} </p>
+								<p className="Title">流量耗费(/L)</p>
+								<p className="Data">{this.state.mainpageHead.flowNumberYesterday.toFixed(1)} </p>
 							</Col>
 							<Col lg={6} className="Box">
 								<p className="Title">消费金额(元)</p>
-								<p className="Data">{this.state.record1.totalflow.toFixed(1)} </p>
+								<p className="Data">{this.state.mainpageHead.consumeNumberYesterday.toFixed(1)} </p>
 							</Col>
 						</Row>
 					</Col>
 				</Row>
-				<Row style={{paddingTop:'20px'}}>
-					<p className="dataTitle">设备掉线报警</p>
-					<Col lg={20} offset={2} style={{paddingTop:'20px'}}>
-						<Table columns={columns} dataSource={data} onChange={this.onChange} bordered style={{textAlign:'center'}}/>
+				<Row style={{paddingTop:'35px'}}>
+					<Col lg={20} offset={2} >
+						<Table columns={columns} title={ () => (<span style={{fontSize: '16pt',color:'#f04134',letterSpacing: 5}}><Icon type="bell" />设备报警信息</span>)} dataSource={data} onChange={this.onChange} bordered style={{textAlign:'center'}}/>
 					</Col>
 				</Row>
 			</div>

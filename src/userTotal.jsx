@@ -86,7 +86,7 @@ export default class userTotal extends React.Component {
 					</Col>
 					<Col lg={4} className="Box">
 						<p className="Title">月平均充值</p>
-						<p className="Data">{this.state.userTotal1.monthAverRecharge} </p>
+						<p className="Data">{this.state.userTotal1.monthAverRecharge.toFixed(2)} </p>
 					</Col>
 					<Col lg={4} className="Box">
 						<p className="Title">历史平均充值</p>

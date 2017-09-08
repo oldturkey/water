@@ -1,9 +1,8 @@
 import React from 'react';
 import $ from 'jquery';
-import { Row, Col ,Table,Form, Select,Input,DatePicker, Button} from 'antd';
+import { Row, Col ,Table,Form,Input,DatePicker, Button} from 'antd';
 
 const FormItem = Form.Item;
-const Option = Select.Option;
 const RangePicker = DatePicker.RangePicker;
 
  class userData extends React.Component {
@@ -14,7 +13,7 @@ const RangePicker = DatePicker.RangePicker;
   handleSearch = (e) => {
     const _this = this;
     e.preventDefault();
-    // const token = window.localStorage["token"];
+    const token = window.localStorage["token"];
     this.props.form.validateFields((err, fieldsValue) => {
       if (err) {
         return;
@@ -28,11 +27,11 @@ const RangePicker = DatePicker.RangePicker;
          endTime = rangeTimeValue[1].format('YYYY-MM-DD HH:mm:ss');
       }
       $.ajax({
-        url:'http://192.168.31.158:90/userinfo/search/phone',
+        url:'/userinfo/search/phone',
         dataType:'json',
-        // headers: {
-        //   'Authorization': token,
-        // },
+        headers: {
+          'Authorization': token,
+        },
         data:{phone:fieldsValue['userPhone'],beginTime:beginTime?beginTime:'',endTime:endTime?endTime:''},
         success:function(data){
           if(data.status===1){
@@ -61,23 +60,7 @@ const RangePicker = DatePicker.RangePicker;
       labelCol: { span: 6 },
       wrapperCol: { span: 12 },
     };
-    const columns = [{
-        title: '用户姓名',
-        dataIndex: 'nickname',
-      }, {
-        title: '用户所在地',
-        dataIndex: 'city',
-      }, {
-        title: '手机号码',
-        dataIndex: 'phone',
-      },{
-        title: '账户余额',
-        dataIndex: 'remain',
-      }, 
-      {
-        title: '注册时间',
-        dataIndex: 'gmtModified',
-      }];
+
       const columnsOrder01 = [{
         title: '订单编号',
         dataIndex: 'orderNo',
@@ -159,5 +142,3 @@ const RangePicker = DatePicker.RangePicker;
 const WrappedApp = Form.create()(userData);
 export default WrappedApp;
 
-// <p className="dataTitle" >订单查询结果</p>
-        // <Table columns={columns} dataSource={this.state.userInfo}  onChange={this.onChange} rowSelection={this.rowSelection} bordered style={{textAlign:'center',marginBottom:20}}/>

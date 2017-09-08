@@ -20,7 +20,7 @@ class NormalLoginForm extends React.Component {
         console.log('Received values of form: ', values);
         var _this = this;
         $.ajax({
-          url:'http://192.168.31.158:90/login/',
+          url:'/login',
           dataType:'json',
           type:'POST',
           data:{name:values.userName,password:values.password},

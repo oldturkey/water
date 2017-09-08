@@ -4,47 +4,6 @@ import { Form,  Input, Button,Table, Icon ,Row,Col,Popconfirm,Modal,DatePicker }
 const FormItem = Form.Item;
 const RangePicker = DatePicker.RangePicker;
 
-// const data = [{
-//     key: '1',
-//     phone: '1505335789',
-//     nickname: '小明',
-//     email: '0404@qq.com',
-//     feedback:15,
-//     gmtCreate:'2017/09/04',
-//     status:2
-//   }, {
-//     key: '2',
-//     phone: '1866799957',
-//     nickname: '小黄',
-//     email: '0404@qq.com',
-//     feedback:15,
-//     gmtCreate:'2017/09/04',
-//     status:2
-//   }, {
-//     key: '3',
-//     phone: '15805565587',
-//     nickname: '小兰',
-//     email: '0404@qq.com',
-//     feedback:15,
-//     gmtCreate:'2017/09/04',
-//     status:2
-//   }, {
-//     key: '4',
-//     phone: '1335655878',
-//     nickname: '小吕',
-//     email: '0404@qq.com',
-//     feedback:15,
-//     gmtCreate:'2017/09/04',
-//     status:2
-//   }, {
-//     key: '5',
-//     phone: '1866799957',
-//     nickname: '小黄',
-//     email: '0404@qq.com',
-//     feedback:15,
-//     gmtCreate:'2017/09/04',
-//     status:2
-//   }];
 
 class App extends React.Component {
   state = {
@@ -78,16 +37,15 @@ class App extends React.Component {
     this.setState({ selectedRowKeys });
   }
   onUpDate =(key) => {
-    let data = [...this.state.data];
     const token = window.localStorage["token"];
     const _this = this;
     $.ajax({
-        url:'http://192.168.31.158:90/feedback/updateStatus',
+        url:'/feedback/updateStatus',
         dataType:'json',
         type:'POST',
-        // headers: {
-        //   'Authorization': token,
-        // },
+        headers: {
+          'Authorization': token,
+        },
         data:{id:key},
         success:function(data){
           if(data.updateResult===1){
@@ -114,13 +72,12 @@ class App extends React.Component {
     this.setState({ data: data.filter(item => item.key !== key) });
     const token = window.localStorage["token"];
     $.ajax({
-        url:'http://192.168.31.158:90/feedback/delete/id',
+        url:'/feedback/delete/id',
         dataType:'json',
         type:'POST',
-        // headers: {
-        //   'Authorization': token,
-        // },
-        // 
+        headers: {
+          'Authorization': token,
+        },
         data:{id:key},
         success:function(data){
           if(data.deleteResult===1){
@@ -175,11 +132,11 @@ class App extends React.Component {
       }
       const _this = this;
       $.ajax({
-        url:'http://192.168.31.158:90/feedback/get',
+        url:'/feedback/get',
         dataType:'json',
-        // headers: {
-        //   'Authorization': token,
-        // },
+        headers: {
+          'Authorization': token,
+        },
         data:{phone:fieldsValue['phone']?fieldsValue['phone']:'',beginTime:beginTime?beginTime:'',endTime:endTime?endTime:''},
         success:function(data){
           if(data.status===1){

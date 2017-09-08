@@ -30,11 +30,11 @@ export default class App extends Component {
    }
    
 
-  // componentWillMount() {
-  //   if(this.getCookie('user')===""){
-  //     this.props.history.replace('/');
-  //   }
-  // }
+   componentWillMount() {
+     if(this.getCookie('user')===""){
+       this.props.history.replace('/');
+     }
+   }
   render() {
     const admin = this.getCookie('user');
     const menu = (
