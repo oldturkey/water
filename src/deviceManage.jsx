@@ -78,10 +78,6 @@ export default class EditableTable extends React.Component {
 
   componentDidMount(){
     this.lodaDataFromServer();
-    this.timeDeviceManage=setInterval(this.lodaDataFromServer,120000);
-  }
-  componentWillUnmount(){
-    clearInterval(this.timeDeviceManage);
   }
   constructor(props) {
     super(props);
@@ -247,7 +243,7 @@ export default class EditableTable extends React.Component {
       state:'在线/离线',
       displayId:'00',
       strength:'x',
-      gmtCreate:new Date().toLocaleString()
+      gmtCreate:new Date().Format("yyyy-MM-dd hh:mm:ss.0")
     };
     this.setState({
       dataSource: [...dataSource, newData],
@@ -260,7 +256,8 @@ export default class EditableTable extends React.Component {
     return (
       <div>
         <p className="dataTitle" >设备管理</p>
-        <Button className="editable-add-btn" onClick={this.handleAdd}>添加设备</Button>
+        <Button className="editable-add-btn" style={{float:'right',backgroundColor: '#49a9ee',color:'#fff'}} onClick={this.lodaDataFromServer}>刷新状态</Button>
+        <Button className="editable-add-btn"  onClick={this.handleAdd}>添加设备</Button>
         <Table bordered dataSource={dataSource} columns={columns} />
       </div>
     );

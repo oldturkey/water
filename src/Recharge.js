@@ -1,8 +1,8 @@
 import React from 'react';
 import $ from 'jquery';
-import { Form,  Input, Button,InputNumber,Table, Icon ,Row,Col,Tooltip } from 'antd';
+import { Form,  Input, Button,InputNumber,Table, Icon ,Row,Col,Tooltip,Tabs } from 'antd';
 const FormItem = Form.Item;
-
+const TabPane = Tabs.TabPane;
 const token = window.localStorage["token"];
 let dataX = [];
 let dataY = [];
@@ -98,7 +98,9 @@ class App extends React.Component {
       });
     });
   }
-  
+   callback(key) {
+  console.log(key);
+}
   onInputChange = (e) => {
     this.setState({ searchText: e.target.value });
   }
@@ -150,6 +152,7 @@ class App extends React.Component {
       }).filter(record => !!record),
     });
   }
+
   render() {
     const { getFieldDecorator } = this.props.form;
     const { selectedRowKeys } = this.state;
@@ -300,36 +303,43 @@ class App extends React.Component {
 
     return (
     <div >
-      <div style={{marginTop:'20px',borderBottom:'2px solid #eee'}}>
-        <p className="dataTitle">发放鼓励金</p>
-        <Table columns={columns} rowSelection={rowSelection} dataSource={this.state.data} loading={this.state.loading}/>
-        <Row style={{padding:'20px 0'}}>
-          <Col span={20} offset={12}>
-            <Form onSubmit={this.handleSubmit} layout='inline'>
-              <FormItem
-                label="为选中用户充值金额(元)"
-                labelCol={{ lg: 16 }}
-                wrapperCol={{ lg: 6 }}
-              >
-                {getFieldDecorator('money', {
-                  rules: [{ required: true, message: '请输入充值金额!' }],
-                })(
-                  <InputNumber min={1}  max={50}/>
-                )}
-              </FormItem>
-              <FormItem
-                wrapperCol={{ lg: 6, offset: 6 }}
-              >
-                <Button type="primary" htmlType="submit">
-                  充值
-                </Button>
-              </FormItem>
-            </Form>
-         </Col>
-        </Row>
-      </div>
-      <p className="dataTitle" style={{marginTop:'20px'}}>发放记录</p>
-      <Table columns={columnsHistory}  dataSource={this.state.data01} />
+    <p className="dataTitle">金额发放页</p>
+      <Tabs onChange={this.callback} type="card">
+        <TabPane tab="发放鼓励金" key="1">
+          <div style={{marginTop:'20px',borderBottom:'2px solid #eee'}}>
+            <Table columns={columns} rowSelection={rowSelection} dataSource={this.state.data} loading={this.state.loading}/>
+            <Row style={{padding:'20px 0'}}>
+              <Col span={20} offset={12}>
+                <Form onSubmit={this.handleSubmit} layout='inline'>
+                  <FormItem
+                    label="为选中用户充值金额(元)"
+                    labelCol={{ lg: 16 }}
+                    wrapperCol={{ lg: 6 }}
+                  >
+                    {getFieldDecorator('money', {
+                      rules: [{ required: true, message: '请输入充值金额!' }],
+                    })(
+                      <InputNumber min={1}  max={50}/>
+                    )}
+                  </FormItem>
+                  <FormItem
+                    wrapperCol={{ lg: 6, offset: 6 }}
+                  >
+                    <Button type="primary" htmlType="submit">
+                      充值
+                    </Button>
+                  </FormItem>
+                </Form>
+             </Col>
+            </Row>
+          </div>
+        </TabPane>
+        <TabPane tab="发放记录" key="2">
+          <Table columns={columnsHistory}  dataSource={this.state.data01} />
+        </TabPane>
+      </Tabs>
+      
+      
     </div>
     );
   }
