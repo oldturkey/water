@@ -85,42 +85,54 @@ export default class EditableTable extends React.Component {
       title: 'IMEI号',
       dataIndex: 'imei',
       width: '12%',
-      render: (text, record) => (
-        <EditableCell
-          value={text}
-          onChange={this.onCellChange(record.key, 'imei')}
-        />
-      ),
+      render: (text, record) => {
+        if(!record.operation){
+          return (
+            <EditableCell
+              value={text}
+              onChange={this.onCellChange(record.key, 'imei')}
+            />
+          )
+        }else {
+          return text
+        }
+      },
     },  {
       title: '设备编号',
       dataIndex: 'displayId',
       width: '12%',
-      render: (text, record) => (
-        <EditableCell
-          value={text}
-          onChange={this.onCellChange(record.key, 'displayId')}
-        />
-      ),
     },{
       title: 'SIM卡号',
       dataIndex: 'simId',
       width: '12%',
-      render: (text, record) => (
-        <EditableCell
-          value={text}
-          onChange={this.onCellChange(record.key, 'simId')}
-        />
-      ),
+      render: (text, record) => {
+        if(!record.operation){
+          return (
+            <EditableCell
+              value={text}
+              onChange={this.onCellChange(record.key, 'simId')}
+            />
+          )
+        }else {
+          return text
+        }
+      },
     }, {
       title: '设备地址',
       dataIndex: 'location',
       width: '12%',
-      render: (text, record) => (
-        <EditableCell
-          value={text}
-          onChange={this.onCellChange(record.key, 'location')}
-        />
-      ),
+      render: (text, record) => {
+        if(!record.operation){
+          return (
+            <EditableCell
+              value={text}
+              onChange={this.onCellChange(record.key, 'location')}
+            />
+          )
+        }else {
+          return text
+        }
+      },
     }, {
       title: '信号强度',
       dataIndex: 'strength',
@@ -159,9 +171,6 @@ export default class EditableTable extends React.Component {
         }else{
           return (
             <span>   
-                <Popconfirm title="确定要删除该设备?" onConfirm={() => this.onDelete(record.key)}>
-                  <a href="">删除 </a>
-                </Popconfirm><span>&nbsp;&nbsp;</span>
                 <Popconfirm title="确定要更新该设备信息?" onConfirm={() => this.onUpDate(record.key)}>
                   <a href="">上传更新设备状态</a>
                 </Popconfirm>
@@ -200,7 +209,15 @@ export default class EditableTable extends React.Component {
         },
         data:{displayId:deleteItem.displayId},
         success:function(data){
-              _this.setState({ dataSource: dataSource.filter(item => item.key !== key) });
+          if(data.status===200){
+             _this.setState({ dataSource: dataSource.filter(item => item.key !== key) });
+          }else if(data.status===400){
+            alert("授权失败");
+          }else if(data.status===401){
+            alert("displayId不存在");
+          }else if(data.status===500){
+            alert("删除设备失败");
+          }  
         },
         error:function(xhr,status,err){
           console.error(this.props.url,status,err.toString());
@@ -224,9 +241,13 @@ export default class EditableTable extends React.Component {
           if(data.status===200){
             alert("添加成功");
             _this.lodaDataFromServer();
-          }else{
-            alert("添加失败");
-          }
+          }else if(data.status===400){
+            alert("授权失败");
+          }else if(data.status===501){
+            alert("新建设备失败，SIM卡号或者IMEI长度不足15");
+          }else if(data.status===502){
+            alert("重复添加");
+          } 
         },
         error:function(xhr,status,err){
           console.error(this.props.url,status,err.toString());
@@ -237,13 +258,9 @@ export default class EditableTable extends React.Component {
     const { count, dataSource } = this.state;
     const newData = {
       key: count,
-      imei: `设备 ${count}`,
-      simId: 'xx',
-      location: `xxxx`,
-      state:'在线/离线',
-      displayId:'00',
-      strength:'x',
-      gmtCreate:new Date().Format("yyyy-MM-dd hh:mm:ss.0")
+      imei: '编辑',
+      simId: '编辑',
+      location: '编辑',
     };
     this.setState({
       dataSource: [...dataSource, newData],

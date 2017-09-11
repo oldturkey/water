@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import md5 from 'js-md5';
 import $ from 'jquery';
 import './Login.css'
 const FormItem = Form.Item;
@@ -17,13 +18,12 @@ class NormalLoginForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
         var _this = this;
         $.ajax({
-          url:'http://192.168.31.158:90/login/',
+          url:'http://192.168.31.158:90/login',
           dataType:'json',
           type:'POST',
-          data:{name:values.userName,password:values.password},
+          data:{name:values.userName,password:md5(values.password)},
           success:function(data){
             if(data.status===1){
               _this.setCookie('user',values.userName);

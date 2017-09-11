@@ -35,12 +35,15 @@ export default class App extends Component {
        this.props.history.replace('/');
      }
    }
+   loginOut(){
+    window.localStorage.removeItem('token');
+   }
   render() {
     const admin = this.getCookie('user');
     const menu = (
       <Menu style={{top:'5px',right: '15px'}}>
         <Menu.Item >
-          <Link to="/"><Icon type="poweroff" /> 注销登录</Link>
+          <a href="" onClick = {this.loginOut} ><Icon type="poweroff" /> 注销登录</a>
         </Menu.Item>
       </Menu>
     );

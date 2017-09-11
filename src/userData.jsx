@@ -1,12 +1,13 @@
 import React from 'react';
 import $ from 'jquery';
-import { Row, Col ,Table,Form,Input,DatePicker, Button} from 'antd';
+import { Row, Col ,Table,Form,Input,DatePicker, Button,Card} from 'antd';
 
 const FormItem = Form.Item;
 const RangePicker = DatePicker.RangePicker;
 
  class userData extends React.Component {
   state ={
+    userinfo:{"city":"111","country":"中国","headimgurl":"http://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTIujJ30Q2gWYjtiaDzJB82ia5DqUv1oY1FLH4MibsoziaTZs02LR3ibPY5ySSCThNsXVr0dWwkkoicFRL2g/0"},
     consumeInfo:[],
     rechargeInfo:[]
   }
@@ -27,15 +28,16 @@ const RangePicker = DatePicker.RangePicker;
          endTime = rangeTimeValue[1].format('YYYY-MM-DD HH:mm:ss');
       }
       $.ajax({
-        url:'/userinfo/search/phone',
+        url:'http://192.168.31.158:90/userinfo/search/phone',
         dataType:'json',
-        headers: {
-          'Authorization': token,
-        },
+        // headers: {
+        //   'Authorization': token,
+        // },
         data:{phone:fieldsValue['userPhone'],beginTime:beginTime?beginTime:'',endTime:endTime?endTime:''},
         success:function(data){
           if(data.status===1){
               _this.setState({
+                userinfo:data.userinfo,
                 consumeInfo:data.consumeInfo,
                 rechargeInfo:data.rechargeInfo
               });
@@ -92,7 +94,7 @@ const RangePicker = DatePicker.RangePicker;
       }];
     return(
       <div>
-      <p className="dataTitle">条件查询</p>
+      <p className="dataTitle">用户数据查询</p>
         <Form
         className="ant-advanced-search-form"
         onSubmit={this.handleSearch}
@@ -126,6 +128,16 @@ const RangePicker = DatePicker.RangePicker;
           </Col>
         </Row>
       </Form>
+      <p className="dataTitle">查询结果</p>
+        <Card style={{ width: 240 }} bodyStyle={{ padding: 0 }}>
+          <div className="custom-image">
+            <img alt="example" width="100%" src={this.state.userinfo.headimgurl} />
+          </div>
+          <div className="custom-card">
+            <h3>{this.state.userinfo.city}</h3>
+            <p>www.instagram.com</p>
+          </div>
+        </Card>
         <Row>
           <Col lg={14}>
             <Table columns={columnsOrder01} title={ () => '消费记录'} dataSource={this.state.consumeInfo}  onChange={this.onChange} rowSelection={this.rowSelection} bordered style={{textAlign:'center',padding:'0 10px'}}/>

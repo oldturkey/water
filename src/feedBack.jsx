@@ -275,7 +275,7 @@ class App extends React.Component {
             </FormItem>
           </Col>
           <Col span={12} key={2} >
-            <FormItem {...formItemLayout} label={`订单时间`}>
+            <FormItem {...formItemLayout} label={`反馈时间`}>
               {getFieldDecorator(`orderTime`)(
                  <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" />
               )}
