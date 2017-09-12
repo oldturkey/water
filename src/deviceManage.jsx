@@ -1,9 +1,9 @@
 ﻿import React from 'react';
 import $ from 'jquery';
-import { Table, Input, Icon, Button, Popconfirm } from 'antd';
+import { Table, Input, Icon, Button, Popconfirm,message } from 'antd';
 import './device.css';
 
-
+//可编辑组件
 class EditableCell extends React.Component {
   state = {
     value: this.props.value,
@@ -53,9 +53,11 @@ class EditableCell extends React.Component {
       </div>
     );        
   }
-}   
-export default class EditableTable extends React.Component {
+}  
 
+//设备管理组件
+export default class DeviceManage extends React.Component {
+  //获取设备列表
   lodaDataFromServer=()=>{
     const token = window.localStorage["token"]; 
     $.ajax({
@@ -183,8 +185,8 @@ export default class EditableTable extends React.Component {
     this.state = {
       dataSource: [],
       count: 0,
-    };
-  }
+      };
+    }
   onCellChange = (key, dataIndex) => {
     return (value) => {
       const dataSource = [...this.state.dataSource];
@@ -195,6 +197,8 @@ export default class EditableTable extends React.Component {
       }
     };
   }
+
+  //删除设备
   onDelete = (key) => {   
     const token = window.localStorage["token"]; 
     const dataSource = [...this.state.dataSource];
@@ -212,11 +216,11 @@ export default class EditableTable extends React.Component {
           if(data.status===200){
              _this.setState({ dataSource: dataSource.filter(item => item.key !== key) });
           }else if(data.status===400){
-            alert("授权失败");
+            message.error("授权失败");
           }else if(data.status===401){
-            alert("displayId不存在");
+            message.error("displayId不存在");
           }else if(data.status===500){
-            alert("删除设备失败");
+            message.error("删除设备失败");
           }  
         },
         error:function(xhr,status,err){
@@ -224,6 +228,7 @@ export default class EditableTable extends React.Component {
         }.bind(this)
       });
   }
+  //添加设备
   onUpDate = (key) => {
     const _this = this;
     const token = window.localStorage["token"]; 
@@ -239,14 +244,14 @@ export default class EditableTable extends React.Component {
         data:{imei:upDateItem.imei,address:upDateItem.location,sim:upDateItem.simId},
         success:function(data){
           if(data.status===200){
-            alert("添加成功");
+            message.success("添加成功");
             _this.lodaDataFromServer();
           }else if(data.status===400){
-            alert("授权失败");
+            message.error("授权失败");
           }else if(data.status===501){
-            alert("新建设备失败，SIM卡号或者IMEI长度不足15");
+            message.error("新建设备失败，SIM卡号或者IMEI长度不足15");
           }else if(data.status===502){
-            alert("重复添加");
+            message.error("重复添加");
           } 
         },
         error:function(xhr,status,err){

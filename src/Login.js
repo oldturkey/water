@@ -1,12 +1,12 @@
 import React from 'react';
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Form, Icon, Input, Button, Checkbox,message } from 'antd';
 import md5 from 'js-md5';
 import $ from 'jquery';
 import './Login.css'
 const FormItem = Form.Item;
 
-
-class NormalLoginForm extends React.Component {
+//登录页
+class LoginForm extends React.Component {
    setCookie=(cname,cvalue,exdays)=>{
       const d = new Date();
       d.setTime(d.getTime()+(exdays*24*60*60*1000));
@@ -31,7 +31,7 @@ class NormalLoginForm extends React.Component {
               storage.token = data.token;
               _this.props.history.push('./app');
             }else{
-              alert('登录失败');
+              message.error('登录失败,账号或密码不正确');;
             }
           },
           error:function(xhr,status,err){
@@ -39,7 +39,7 @@ class NormalLoginForm extends React.Component {
           }.bind(this)
         })
       }
-        });
+    });
   }
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -81,5 +81,5 @@ class NormalLoginForm extends React.Component {
   }
 }
 
-const WrappedNormalLoginForm = Form.create()(NormalLoginForm);
-export default WrappedNormalLoginForm;
+const WrappedLoginForm = Form.create()(LoginForm);
+export default WrappedLoginForm;

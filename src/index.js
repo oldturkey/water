@@ -6,6 +6,7 @@ import App from './App';
 import Login from './Login';
 import registerServiceWorker from './registerServiceWorker';
 
+//判断是否登录模块
 function requireAuthentication(Component) {
   // 组件有已登陆的模块 直接返回 (防止从新渲染)
   if (Component.AuthenticatedComponent) {
@@ -44,6 +45,8 @@ function requireAuthentication(Component) {
   }
   return AuthenticatedComponent;
 }
+
+//时间格式化函数
 Date.prototype.Format = function (fmt) { //author: meizz 
     var o = {
         "M+": this.getMonth() + 1, //月份 

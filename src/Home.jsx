@@ -1,8 +1,11 @@
 import React from 'react';
 import $ from 'jquery';
-import { Row, Col ,Table,Icon} from 'antd';
+import { Row, Col ,Table,Icon,message} from 'antd';
 import './home.css';
-export default class product extends React.Component {
+
+
+//首页
+export default class Home extends React.Component {
 	state ={
 		loading: false,
 		data:[],
@@ -26,6 +29,7 @@ export default class product extends React.Component {
 			}.bind(this),
 			error:function(xhr,status,err){
 				console.error(this.props.url,status,err.toString());
+				message.error('加载失败');
 			}.bind(this)
 		});
 	}

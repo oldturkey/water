@@ -5,7 +5,8 @@ import { Row, Col ,Table,Form,Input,DatePicker, Button,Collapse } from 'antd';
 const FormItem = Form.Item;
 const RangePicker = DatePicker.RangePicker;
 const Panel = Collapse.Panel;
- class userData extends React.Component {
+
+class userData extends React.Component {
   state ={
     userInfo:{"phone":"","city":"","country":"","province":""},
     consumeInfo:[],
@@ -151,6 +152,6 @@ const Panel = Collapse.Panel;
   }
 }
 
-const WrappedApp = Form.create()(userData);
-export default WrappedApp;
+const UserApp = Form.create()(userData);
+export default UserApp;
 

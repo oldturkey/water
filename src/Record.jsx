@@ -2,7 +2,13 @@ import React from 'react';
 import $ from 'jquery';
 import { Row, Col ,Table} from 'antd';
 
-export default class product extends React.Component {
+
+//流量管理
+export default class FlowManage extends React.Component {
+	state ={
+		data:[],
+		record1:{"todayflow": 0,"averflow":0,"totalflow":0,"hisaverflow":0}
+	}
 	lodaDataFromServer=()=>{
 		const token = window.localStorage["token"];
 		$.ajax({
@@ -22,10 +28,6 @@ export default class product extends React.Component {
 			}.bind(this)
 		});
 	}
-	state ={
-		data:[],
-		record1:{"todayflow": 0,"averflow":0,"totalflow":0,"hisaverflow":0}
-	}
 	componentDidMount(){
 		this.lodaDataFromServer();
 		this.timeRecord=setInterval(this.lodaDataFromServer,120000);
@@ -35,7 +37,6 @@ export default class product extends React.Component {
 	}
 	onChange = (pagination, filters, sorter)=>{
 		console.log('params', pagination, filters, sorter);
-
 	}
 
 	render(){

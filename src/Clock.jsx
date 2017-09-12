@@ -1,5 +1,6 @@
 import React from 'react';
 
+//右上角时钟组件
 export default class clock extends React.Component {
   state = {date: new Date()};
 

@@ -3,8 +3,8 @@ import $ from 'jquery';
 import { Row, Col } from 'antd';
 var ReactHighcharts = require('react-highcharts');
 
-
-export default class Content extends React.Component {
+//金额统计
+export default class Mannage extends React.Component {
 	state = { 
 		manage1:{recharge:0,present:0,todayrecharge:0,todayconsume:0,remain:0},
 		categories: [] ,

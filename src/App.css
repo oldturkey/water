@@ -87,6 +87,9 @@
 .highlight {
   color: #f50;
 }
+.editable-cell-text-wrapper {
+  color:#108ee9;
+}
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }

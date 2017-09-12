@@ -3,7 +3,7 @@ import $ from 'jquery';
 import { Row, Col } from 'antd';
 var ReactHighcharts = require('react-highcharts');
 
-
+//用户统计
 export default class userTotal extends React.Component {
 	state = { 
 		userTotal1:{userTotalNo:0,monthAverRecharge:0,hisAverRecharge:0,monthAverConsume:0,hisAverConsume:0},

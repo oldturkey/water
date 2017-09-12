@@ -1,6 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
-import { Form,  Input, Button,Table, Icon ,Row,Col,Popconfirm,Modal,DatePicker } from 'antd';
+import { Form,  Input, Button,Table, Icon ,Row,Col,Popconfirm,Modal,DatePicker,message  } from 'antd';
 const FormItem = Form.Item;
 const RangePicker = DatePicker.RangePicker;
 
@@ -49,7 +49,7 @@ class App extends React.Component {
         data:{id:key},
         success:function(data){
           if(data.updateResult===1){
-              alert('更新成功');
+              message.success('更新成功');
               let data = [..._this.state.data];
                data.forEach(function(item){
                 if(item.key===key){
@@ -59,7 +59,7 @@ class App extends React.Component {
               });
               _this.setState({ data: data});
           }else{
-            alert('更新失败');
+            message.error('更新失败');
           }
         },
         error:function(xhr,status,err){
@@ -81,9 +81,9 @@ class App extends React.Component {
         data:{id:key},
         success:function(data){
           if(data.deleteResult===1){
-              alert('删除成功');
+               message.success('删除成功');
           }else{
-            alert('删除失败');
+            message.error('删除失败');
           }
         },
         error:function(xhr,status,err){
@@ -142,7 +142,7 @@ class App extends React.Component {
           if(data.status===1){
               _this.setState({data:data.feedbackContent});
           }else{
-            alert('查询失败');
+            message.error('查询失败');
           }
         },
         error:function(xhr,status,err){

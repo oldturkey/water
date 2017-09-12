@@ -1,11 +1,11 @@
 import React from 'react';
 import $ from 'jquery';
-import { Form,  Input, Button,InputNumber,Table, Icon ,Row,Col,Tooltip,Tabs } from 'antd';
+import { Form,  Input, Button,InputNumber,Table, Icon ,Row,Col,Tooltip,Tabs,message } from 'antd';
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
-const token = window.localStorage["token"];
 let dataX = [];
 let dataY = [];
+
 class App extends React.Component {
   state = {
     data:[],
@@ -74,6 +74,7 @@ class App extends React.Component {
     e.preventDefault();
     const _this = this;
     const rechargePerson = this.state.selectedRowKeys.map(this.getPhoneArrary);
+    const token = window.localStorage["token"];
    console.log(rechargePerson);
     let admin = this.props.admin;
     this.props.form.validateFields(['money'],(err, fieldsValue) => {
@@ -87,9 +88,10 @@ class App extends React.Component {
         data:{adminName:admin,phone:rechargePerson,money:fieldsValue['money']},
         success:function(data){
           if(data.rechargeStatus===1){
-              _this.lodaDataFromServer();
+            message.success('充值成功');
+            _this.lodaDataFromServer();
           }else{
-            alert('充值失败');
+            message.error('充值失败');
           }
         },
         error:function(xhr,status,err){
