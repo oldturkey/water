@@ -75,7 +75,6 @@ class App extends React.Component {
     const _this = this;
     const rechargePerson = this.state.selectedRowKeys.map(this.getPhoneArrary);
     const token = window.localStorage["token"];
-   console.log(rechargePerson);
     let admin = this.props.admin;
     this.props.form.validateFields(['money'],(err, fieldsValue) => {
       $.ajax({
@@ -246,7 +245,11 @@ class App extends React.Component {
     },{
       title: '账户余额',
       dataIndex: 'remain',
-      key: 'balance',
+      key: 'remain',
+    },{
+      title: '赠送余额',
+      dataIndex: 'present',
+      key: 'present',
     }];
 
 
