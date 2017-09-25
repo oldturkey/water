@@ -98,7 +98,7 @@ export default class App extends Component {
             </Layout>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
-            water ©2017 Created by TaiBi
+            Smart Water©2017 Created by Terabits.cn
           </Footer>
         </Layout>
       </div>
