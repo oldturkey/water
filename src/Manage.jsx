@@ -6,7 +6,7 @@ var ReactHighcharts = require('react-highcharts');
 //金额统计
 export default class Mannage extends React.Component {
 	state = { 
-		manage1:{recharge:0,present:0,todayrecharge:0,todayconsume:0,remain:0},
+		manageToday:{recharge:0,present:0,todayrecharge:0,todayconsume:0,remain:0},
 		categories: [] ,
 		data01:  [],
 		data02: []
@@ -21,10 +21,10 @@ export default class Mannage extends React.Component {
 			  },
 			success:function(data){
 				this.setState({
-					manage1:data.manage1,
-					categories:data.manage2.date,
-					data01:data.manage2.recharge,
-					data02:data.manage2.payment
+					manageToday:data.manageToday,
+					categories:data.manageMonth.date,
+					data01:data.manageMonth.recharge,
+					data02:data.manageMonth.payment
 				});
 			}.bind(this),
 			error:function(xhr,status,err){
@@ -87,27 +87,27 @@ export default class Mannage extends React.Component {
 				<p className="dataTitle">经营数据</p>
 					<Col lg={4} offset={2} className="Box">
 						<p className="Title">今日充值金额(元)</p>
-						<p className="Data">{this.state.manage1.recharge} </p>
+						<p className="Data">{this.state.manageToday.recharge} </p>
 					</Col>
 					<Col lg={4} className="Box">
 						<p className="Title">今日赠送金额(元)</p>
-						<p className="Data">{this.state.manage1.present} </p>
+						<p className="Data">{this.state.manageToday.present} </p>
 					</Col>
 					<Col lg={4} className="Box">
 						<p className="Title">今日充值总金额(元)</p>
-						<p className="Data">{this.state.manage1.todayrecharge} </p>
+						<p className="Data">{this.state.manageToday.todayrecharge} </p>
 					</Col>
 					<Col lg={4} className="Box">
 						<p className="Title">今日消费金额(元)</p>
-						<p className="Data">{this.state.manage1.todayconsume} </p>
+						<p className="Data">{this.state.manageToday.todayconsume} </p>
 					</Col>
 					<Col lg={4} className="Box">
 						<p className="Title">账户总余额(元)</p>
-						<p className="Data">{this.state.manage1.remain} </p>
+						<p className="Data">{this.state.manageToday.remain} </p>
 					</Col>
 				</Row>
 				<Row style={{paddingTop:'20px'}}>
-					<p className="dataTitle">当月数据</p>
+					<p className="dataTitle">30天数据</p>
 					<Col lg={20} offset={2}>
 						<ReactHighcharts config = {config}></ReactHighcharts>
 					</Col>

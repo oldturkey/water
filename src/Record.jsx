@@ -7,7 +7,7 @@ import { Row, Col ,Table} from 'antd';
 export default class FlowManage extends React.Component {
 	state ={
 		data:[],
-		record1:{"todayflow": 0,"averflow":0,"totalflow":0,"hisaverflow":0}
+		recordToday:{"todayflow": 0,"averflow":0,"totalflow":0,"hisaverflow":0}
 	}
 	lodaDataFromServer=()=>{
 		const token = window.localStorage["token"];
@@ -19,8 +19,8 @@ export default class FlowManage extends React.Component {
 			  },
 			success:function(data){
 				this.setState({
-					data:data.record2,
-					record1:data.record1
+					data:data.recordDevice,
+					recordToday:data.recordToday
 				});
 			}.bind(this),
 			error:function(xhr,status,err){
@@ -41,12 +41,13 @@ export default class FlowManage extends React.Component {
 
 	render(){
 		const renderContent = (value, col, index) => {
-				value=value.toFixed(2);
+				value=value.toFixed(1);
 			return value;
 		}
 		const columns = [{
 			  title: '设备编号',
 			  dataIndex: 'displayId',
+			  sorter: (a, b) => a.displayId-b.displayId,
 			}, {
 			  title: '投放位置',
 			  dataIndex: 'location',
@@ -69,19 +70,19 @@ export default class FlowManage extends React.Component {
 					<p className="dataTitle">数据统计</p>
 					<Col lg={6} className="Box">
 						<p className="Title">当天供水总量(L)</p>
-						<p className="Data">{this.state.record1.todayflow.toFixed(2)} </p>
+						<p className="Data">{this.state.recordToday.todayflow.toFixed(1)} </p>
 					</Col>
 					<Col lg={6} className="Box">
 							<p className="Title">今日平均每台供水量(L)</p>
-						    <p className="Data">{this.state.record1.averflow.toFixed(2)} </p>
+						    <p className="Data">{this.state.recordToday.averflow.toFixed(2)} </p>
 					</Col>
 					<Col lg={6} className="Box">
 						<p className="Title">历史供水总量(L)</p>
-						<p className="Data">{this.state.record1.totalflow.toFixed(1)} </p>
+						<p className="Data">{this.state.recordToday.totalflow.toFixed(1)} </p>
 					</Col>
 					<Col lg={6} className="Box">
 						<p className="Title">历史平均每台供水量(L)</p>
-						<p className="Data">{this.state.record1.hisaverflow.toFixed(1)} </p>
+						<p className="Data">{this.state.recordToday.hisaverflow.toFixed(2)} </p>
 					</Col>
 				</Row>
 				<Row style={{paddingTop:'20px'}}>

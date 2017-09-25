@@ -77,7 +77,7 @@ class userData extends React.Component {
         title: '订单时间',
         dataIndex: 'gmtCreate',
       }, {
-        title: '取水量/L',
+        title: '取水量（L）',
         dataIndex: 'flow',
       },{
         title: '消费金额',

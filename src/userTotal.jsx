@@ -6,7 +6,7 @@ var ReactHighcharts = require('react-highcharts');
 //用户统计
 export default class userTotal extends React.Component {
 	state = { 
-		userTotal1:{userTotalNo:0,monthAverRecharge:0,hisAverRecharge:0,monthAverConsume:0,hisAverConsume:0},
+		userTotalUp:{userTotalNo:0,monthAverRecharge:0,hisAverRecharge:0,monthAverConsume:0,hisAverConsume:0},
 		categories: [] ,
 		data01:  [],
 	}
@@ -20,9 +20,9 @@ export default class userTotal extends React.Component {
 	        },
 			success:function(data){
 				this.setState({
-					userTotal1:data.userTotal1,
-					categories:data.userTotal2.date,
-					data01:data.userTotal2.newUserNo,
+					userTotalUp:data.userTotalUp,
+					categories:data.userTotalDown.date,
+					data01:data.userTotalDown.newUserNo,
 				});
 			}.bind(this),
 			error:function(xhr,status,err){
@@ -81,28 +81,28 @@ export default class userTotal extends React.Component {
 				<Row style={{borderBottom:'2px solid #eee'}}> 
 				<p className="dataTitle">用户数据统计</p>
 					<Col lg={4} offset={2} className="Box">
-						<p className="Title">用户总数</p>
-						<p className="Data">{this.state.userTotal1.userTotalNo} </p>
+						<p className="Title">用户总数（个）</p>
+						<p className="Data">{this.state.userTotalUp.userTotalNo} </p>
 					</Col>
 					<Col lg={4} className="Box">
-						<p className="Title">月平均充值</p>
-						<p className="Data">{this.state.userTotal1.monthAverRecharge.toFixed(2)} </p>
+						<p className="Title">月平均充值（元）</p>
+						<p className="Data">{this.state.userTotalUp.monthAverRecharge.toFixed(2)} </p>
 					</Col>
 					<Col lg={4} className="Box">
-						<p className="Title">历史平均充值</p>
-						<p className="Data">{this.state.userTotal1.hisAverRecharge.toFixed(2)} </p>
+						<p className="Title">历史平均充值（元）</p>
+						<p className="Data">{this.state.userTotalUp.hisAverRecharge.toFixed(2)} </p>
 					</Col>
 					<Col lg={4} className="Box">
-						<p className="Title">月平均消费</p>
-						<p className="Data">{this.state.userTotal1.monthAverConsume.toFixed(2)} </p>
+						<p className="Title">月平均消费（元）</p>
+						<p className="Data">{this.state.userTotalUp.monthAverConsume.toFixed(2)} </p>
 					</Col>
 					<Col lg={4} className="Box">
-						<p className="Title">历史平均消费</p>
-						<p className="Data">{this.state.userTotal1.hisAverConsume.toFixed(2)} </p>
+						<p className="Title">历史平均消费（元）</p>
+						<p className="Data">{this.state.userTotalUp.hisAverConsume.toFixed(2)} </p>
 					</Col>
 				</Row>
 				<Row style={{paddingTop:'20px'}}>
-					<p className="dataTitle">当月数据</p>
+					<p className="dataTitle">30天数据</p>
 					<Col lg={20} offset={2}>
 						<ReactHighcharts config = {config}></ReactHighcharts>
 					</Col>

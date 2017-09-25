@@ -49,15 +49,18 @@ export default class Home extends React.Component {
 		const columns = [{
 			  title: '设备编号',
 			  dataIndex: 'displayId',
+			  sorter: (a, b) => a.displayId-b.displayId,
 			}, {
 			  title: '投放位置',
 			  dataIndex: 'location',
 			}, {
 			  title: 'SIM卡号',
 			  dataIndex: 'simId',
+			  sorter: (a, b) => a.simId-b.simId,
 			}, {
 			  title: 'IMEI号',
 			  dataIndex: 'imei',
+			  sorter: (a, b) => a.imei-b.imei,
 			}, {
 			  title: '最后连接时刻',
 			  dataIndex: 'lastConnectTime',
@@ -76,15 +79,15 @@ export default class Home extends React.Component {
 						<Row>
 							<Col lg={8} className="Box">
 								<p className="Title">设备总数(个)</p>
-								<p className="Data">{this.state.mainpageHead.terminalNumber.toFixed(2)} </p>
+								<p className="Data">{this.state.mainpageHead.terminalNumber} </p>
 							</Col>
 							<Col lg={8} className="Box">
 									<p className="Title">活跃用户(人)</p>
-								    <p className="Data">{this.state.mainpageHead.userNumber.toFixed(2)} </p>
+								    <p className="Data">{this.state.mainpageHead.userNumber} </p>
 							</Col>
 							<Col lg={8} className="Box">
 								<p className="Title">充值总额(元)</p>
-								<p className="Data">{this.state.mainpageHead.rechargeNumber.toFixed(1)} </p>
+								<p className="Data">{this.state.mainpageHead.rechargeNumber} </p>
 							</Col>
 						</Row>
 					</Col>
@@ -93,14 +96,14 @@ export default class Home extends React.Component {
 						<Row>
 							<Col lg={6} className="Box">
 								<p className="Title">用户数量(个)</p>
-								<p className="Data">{this.state.mainpageHead.userNumberYesterday.toFixed(2)} </p>
+								<p className="Data">{this.state.mainpageHead.userNumberYesterday} </p>
 							</Col>
 							<Col lg={6} className="Box">
 									<p className="Title">充值金额(人)</p>
-								    <p className="Data">{this.state.mainpageHead.rechargeNumberYesterday.toFixed(2)} </p>
+								    <p className="Data">{this.state.mainpageHead.rechargeNumberYesterday.toFixed(1)} </p>
 							</Col>
 							<Col lg={6} className="Box">
-								<p className="Title">流量耗费(/L)</p>
+								<p className="Title">供水总量(L)</p>
 								<p className="Data">{this.state.mainpageHead.flowNumberYesterday.toFixed(1)} </p>
 							</Col>
 							<Col lg={6} className="Box">

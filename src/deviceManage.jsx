@@ -84,42 +84,11 @@ export default class DeviceManage extends React.Component {
   constructor(props) {
     super(props);
     this.columns = [{
-      title: 'IMEI号',
-      dataIndex: 'imei',
-      width: '12%',
-      render: (text, record) => {
-        if(!record.operation){
-          return (
-            <EditableCell
-              value={text}
-              onChange={this.onCellChange(record.key, 'imei')}
-            />
-          )
-        }else {
-          return text
-        }
-      },
-    },  {
       title: '设备编号',
       dataIndex: 'displayId',
       width: '12%',
+      sorter: (a, b) => a.displayId - b.displayId,
     },{
-      title: 'SIM卡号',
-      dataIndex: 'simId',
-      width: '12%',
-      render: (text, record) => {
-        if(!record.operation){
-          return (
-            <EditableCell
-              value={text}
-              onChange={this.onCellChange(record.key, 'simId')}
-            />
-          )
-        }else {
-          return text
-        }
-      },
-    }, {
       title: '设备地址',
       dataIndex: 'location',
       width: '12%',
@@ -135,7 +104,41 @@ export default class DeviceManage extends React.Component {
           return text
         }
       },
-    }, {
+    },{
+      title: 'SIM卡号',
+      dataIndex: 'simId',
+      width: '12%',
+      sorter: (a, b) => a.simId - b.simId,
+      render: (text, record) => {
+        if(!record.operation){
+          return (
+            <EditableCell
+              value={text}
+              onChange={this.onCellChange(record.key, 'simId')}
+            />
+          )
+        }else {
+          return text
+        }
+      },
+    },{
+      title: 'IMEI号',
+      dataIndex: 'imei',
+      width: '12%',
+      sorter: (a, b) => a.imei - b.imei,
+      render: (text, record) => {
+        if(!record.operation){
+          return (
+            <EditableCell
+              value={text}
+              onChange={this.onCellChange(record.key, 'imei')}
+            />
+          )
+        }else {
+          return text
+        }
+      },
+    },  {
       title: '信号强度',
       dataIndex: 'strength',
       width: '12%',
@@ -143,6 +146,7 @@ export default class DeviceManage extends React.Component {
       title: '注册时间',
       dataIndex: 'gmtCreate',
       width: '12%',
+      sorter: (a, b) => Date.parse(a.lastConnectTime) - Date.parse(b.lastConnectTime),
     },{
       title: '设备状态',
       dataIndex: 'state',

@@ -244,8 +244,8 @@ class App extends React.Component {
       sorter: (a, b) => a.cost - b.cost,
     },{
       title: '账户余额',
-      dataIndex: 'remain',
-      key: 'remain',
+      dataIndex: 'recharge',
+      key: 'recharge',
     },{
       title: '赠送余额',
       dataIndex: 'present',
