@@ -12,7 +12,7 @@ class Test extends React.Component {
     	const token = window.localStorage["token"];
     	if (!err) {
 		    $.ajax({
-		    	url:'http://119.23.210.52:80/watermachineplateform/parameter',
+		    	url:'/parameter',
 		    	dataType:'json',
 		    	type:'POST',
 		    	headers: {
@@ -20,7 +20,7 @@ class Test extends React.Component {
 			  	},
 		    	data:{displayId:values.id,openTime:values.openTime?values.openTime:'',pulse:values.pulse?values.pulse:'',heartRate:values.heartRate?values.heartRate:'',hotPulse:values.hotPulse?values.hotPulse:''},
 		    	success:function(data){
-		        if(data===1){
+		        if(data.status===1){
 		            alert('设置成功');
 		        }else{
 		          alert('设置失败');

@@ -52,12 +52,12 @@ export default class FlowManage extends React.Component {
 			  title: '投放位置',
 			  dataIndex: 'location',
 			}, {
-			  title: '当天供水量/L',
+			  title: '当天供水总量(升)',
 			  dataIndex: 'flow',
 			  render: renderContent,
 			  sorter: (a, b) => a.flow - b.flow,
 			}, {
-			  title: '历史总供水量/L',
+			  title: '历史供水总量(升)',
 			  dataIndex: 'hisflow',
 			  render: renderContent,
 			  sorter: (a, b) => a.hisflow - b.hisflow,
@@ -69,19 +69,19 @@ export default class FlowManage extends React.Component {
 				<Row style={{borderBottom:'2px solid #eee'}}>
 					<p className="dataTitle">数据统计</p>
 					<Col lg={6} className="Box">
-						<p className="Title">当天供水总量(L)</p>
-						<p className="Data">{this.state.recordToday.todayflow.toFixed(1)} </p>
+						<p className="Title">当天供水总量(升)</p>
+						<p className="Data">{this.state.recordToday.todayflow.toFixed(2)} </p>
 					</Col>
 					<Col lg={6} className="Box">
-							<p className="Title">今日平均每台供水量(L)</p>
+							<p className="Title">今日平均每台供水量(升)</p>
 						    <p className="Data">{this.state.recordToday.averflow.toFixed(2)} </p>
 					</Col>
 					<Col lg={6} className="Box">
-						<p className="Title">历史供水总量(L)</p>
-						<p className="Data">{this.state.recordToday.totalflow.toFixed(1)} </p>
+						<p className="Title">历史供水总量(升)</p>
+						<p className="Data">{this.state.recordToday.totalflow.toFixed(2)} </p>
 					</Col>
 					<Col lg={6} className="Box">
-						<p className="Title">历史平均每台供水量(L)</p>
+						<p className="Title">历史平均每台供水量(升)</p>
 						<p className="Data">{this.state.recordToday.hisaverflow.toFixed(2)} </p>
 					</Col>
 				</Row>

@@ -11,7 +11,6 @@ import Recharge from './Recharge';
 import deviceManage from './deviceManage';
 import feedBack from './feedBack';
 import Clock from './Clock';
-
 import Test from './Test';
 
 const { Header, Content, Footer, Sider } = Layout;	

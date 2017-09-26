@@ -103,7 +103,7 @@ export default class Home extends React.Component {
 								    <p className="Data">{this.state.mainpageHead.rechargeNumberYesterday.toFixed(1)} </p>
 							</Col>
 							<Col lg={6} className="Box">
-								<p className="Title">供水总量(L)</p>
+								<p className="Title">供水总量(升)</p>
 								<p className="Data">{this.state.mainpageHead.flowNumberYesterday.toFixed(1)} </p>
 							</Col>
 							<Col lg={6} className="Box">

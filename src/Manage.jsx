@@ -87,23 +87,23 @@ export default class Mannage extends React.Component {
 				<p className="dataTitle">经营数据</p>
 					<Col lg={4} offset={2} className="Box">
 						<p className="Title">今日充值金额(元)</p>
-						<p className="Data">{this.state.manageToday.recharge} </p>
+						<p className="Data">{this.state.manageToday.recharge.toFixed(1)} </p>
 					</Col>
 					<Col lg={4} className="Box">
 						<p className="Title">今日赠送金额(元)</p>
-						<p className="Data">{this.state.manageToday.present} </p>
+						<p className="Data">{this.state.manageToday.present.toFixed(1)} </p>
 					</Col>
 					<Col lg={4} className="Box">
 						<p className="Title">今日充值总金额(元)</p>
-						<p className="Data">{this.state.manageToday.todayrecharge} </p>
+						<p className="Data">{this.state.manageToday.todayrecharge.toFixed(1)} </p>
 					</Col>
 					<Col lg={4} className="Box">
 						<p className="Title">今日消费金额(元)</p>
-						<p className="Data">{this.state.manageToday.todayconsume} </p>
+						<p className="Data">{this.state.manageToday.todayconsume.toFixed(1)} </p>
 					</Col>
 					<Col lg={4} className="Box">
 						<p className="Title">账户总余额(元)</p>
-						<p className="Data">{this.state.manageToday.remain} </p>
+						<p className="Data">{this.state.manageToday.remain.toFixed(1)} </p>
 					</Col>
 				</Row>
 				<Row style={{paddingTop:'20px'}}>
