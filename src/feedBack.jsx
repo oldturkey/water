@@ -83,7 +83,7 @@ class App extends React.Component {
           if(data.deleteResult===1){
                message.success('删除成功');
           }else{
-            message.error('删除失败');
+            message.error('删除失败,请确认是否解决问题');
           }
         },
         error:function(xhr,status,err){
