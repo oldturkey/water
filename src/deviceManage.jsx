@@ -86,12 +86,12 @@ export default class DeviceManage extends React.Component {
     this.columns = [{
       title: '设备编号',
       dataIndex: 'displayId',
-      width: '12%',
+      width: '7%',
       sorter: (a, b) => a.displayId - b.displayId,
     },{
       title: '设备地址',
       dataIndex: 'location',
-      width: '12%',
+      width: '17%',
       render: (text, record) => {
         if(!record.operation){
           return (

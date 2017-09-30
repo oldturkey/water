@@ -13,7 +13,6 @@ class LoginForm extends React.Component {
       const expires = "expires="+d.toGMTString();
       document.cookie = cname + "=" + cvalue + "; " + expires;
    }
-    
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {

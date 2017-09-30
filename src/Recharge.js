@@ -262,13 +262,13 @@ class App extends React.Component {
       dataIndex: 'adminPhone',
       key: 'adminPhone', 
       render: (text) => {
-        if (text.length <= 11) {
-          return text;
-        }else if (text.length > 11) {
+        if (text.length <= 12) {
+          return text.slice(0,10);
+        }else if (text.length > 12) {
           return (
             <span>
-              {text.slice(0,11)}
-              <Tooltip title={text.slice(12,text.length-2)}>
+              {text.slice(0,10)}
+              <Tooltip title={text.slice(12,text.length-1)}>
                 <span>...</span>
               </Tooltip>
             </span>
@@ -324,7 +324,7 @@ class App extends React.Component {
                     {getFieldDecorator('money', {
                       rules: [{ required: true, message: '请输入充值金额!' }],
                     })(
-                      <InputNumber min={1}  max={50}/>
+                      <InputNumber min={0.1}  max={50}/>
                     )}
                   </FormItem>
                   <FormItem

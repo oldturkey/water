@@ -82,7 +82,7 @@ export default class Home extends React.Component {
 								<p className="Data">{this.state.mainpageHead.terminalNumber} </p>
 							</Col>
 							<Col lg={8} className="Box">
-									<p className="Title">活跃用户(人)</p>
+									<p className="Title">注册用户(人)</p>
 								    <p className="Data">{this.state.mainpageHead.userNumber} </p>
 							</Col>
 							<Col lg={8} className="Box">

@@ -69,7 +69,7 @@ class App extends React.Component {
   }
   onDelete = (key) => {
     const data = [...this.state.data];
-    this.setState({ data: data.filter(item => item.key !== key) });
+    const _this = this;
     const token = window.localStorage["token"];
     $.ajax({
         url:'/feedback/delete/id',
@@ -82,6 +82,7 @@ class App extends React.Component {
         success:function(data){
           if(data.deleteResult===1){
                message.success('删除成功');
+               _this.setState({ data: data.filter(item => item.key !== key) });
           }else{
             message.error('删除失败,请确认是否解决问题');
           }

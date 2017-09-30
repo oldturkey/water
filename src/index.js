@@ -8,9 +8,9 @@ import registerServiceWorker from './registerServiceWorker';
 
 //判断是否登录模块
 function requireAuthentication(Component) {
-  // 组件有已登陆的模块 直接返回 (防止从新渲染)
+  // 组件有已登陆的模块 直接返回 (防止重新渲染)
   if (Component.AuthenticatedComponent) {
-    return Component.AuthenticatedComponent
+    return Component.AuthenticatedComponent;
   }
 
   // 创建验证组件
@@ -47,7 +47,7 @@ function requireAuthentication(Component) {
 }
 
 //时间格式化函数
-Date.prototype.Format = function (fmt) { //author: meizz 
+Date.prototype.Format = function (fmt) {
     var o = {
         "M+": this.getMonth() + 1, //月份 
         "d+": this.getDate(), //日 
