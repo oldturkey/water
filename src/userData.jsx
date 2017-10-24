@@ -8,7 +8,7 @@ const Panel = Collapse.Panel;
 
 class userData extends React.Component {
   state ={
-    userInfo:{"phone":"","city":"","country":"","province":""},
+    userInfo:{"phone":"","city":"","country":"","province":"","remain":0},
     consumeInfo:[],
     rechargeInfo:[]
   }
@@ -134,7 +134,7 @@ class userData extends React.Component {
             <Panel header={this.state.userInfo.phone+' 用户详细信息'} key="1">
               <p>用户昵称：{this.state.userInfo.nickName}</p>
               <p>归属地：{this.state.userInfo.country+' '+this.state.userInfo.province+' '+this.state.userInfo.city}</p>
-              <p>账户余额：{this.state.userInfo.remain}</p>
+              <p>账户余额：{this.state.userInfo.remain.toFixed(2)}</p>
               <p>性别：{this.state.userInfo.sex===1?'男':this.state.userInfo.sex===2?'女':'未知'}</p>
               <p>注册时间：{this.state.userInfo.gmtCreate}</p>
             </Panel>

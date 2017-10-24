@@ -68,7 +68,6 @@ class App extends React.Component {
       });
   }
   onDelete = (key) => {
-    const data = [...this.state.data];
     const _this = this;
     const token = window.localStorage["token"];
     $.ajax({

@@ -241,7 +241,7 @@ class App extends React.Component {
       title: '消费总额',
       dataIndex: 'sumConsume',
       key: 'cost',
-      sorter: (a, b) => a.cost - b.cost,
+      sorter: (a, b) => a.sumConsume - b.sumConsume,
     },{
       title: '账户余额',
       dataIndex: 'recharge',
